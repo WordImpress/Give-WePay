@@ -4,7 +4,7 @@
  * Description: Process Give donations via the WePay Payment Gateway
  * Author: WordImpress
  * Author URI: https://wordimpress.com
- * Text Domain: give-wepay
+ * Text Domain: give_wepay
  * Domain Path: languages
  * Version: 1.0
  */
@@ -20,6 +20,15 @@ class Give_WePay_Gateway {
 
 	function __construct() {
 
+		//Give dependents
+		add_action( 'plugins_loaded', array( $this, 'wepay_init' ) );
+		add_action( 'plugins_loaded', array( $this, 'give_add_wepay_licensing' ) );
+
+	}
+
+
+	function wepay_init() {
+
 		// Filters
 		add_filter( 'give_payment_gateways', array( $this, 'register_gateway' ) );
 		add_filter( 'give_settings_gateways', array( $this, 'register_settings' ) );
@@ -30,6 +39,7 @@ class Give_WePay_Gateway {
 
 		// Actions
 		add_action( 'give_gateway_wepay', array( $this, 'process_payment' ) );
+
 		if ( ! $this->onsite_payments() ) {
 			add_action( 'give_wepay_cc_form', '__return_false' );
 		}
@@ -40,8 +50,6 @@ class Give_WePay_Gateway {
 		add_action( 'init', array( $this, 'register_post_statuses' ), 110 );
 		add_action( 'give_charge_wepay_preapproval', array( $this, 'process_preapproved_charge' ) );
 		add_action( 'give_cancel_wepay_preapproval', array( $this, 'process_preapproved_cancel' ) );
-		add_action( 'plugins_loaded', array( $this, 'give_add_wepay_licensing' ) );
-
 
 	}
 
@@ -123,14 +131,15 @@ class Give_WePay_Gateway {
 
 		// Collect payment data
 		$payment_data = array(
-			'price'        => $purchase_data['price'],
-			'date'         => $purchase_data['date'],
-			'user_email'   => $purchase_data['user_email'],
-			'purchase_key' => $purchase_data['purchase_key'],
-			'currency'     => give_get_currency(),
-			'user_info'    => $purchase_data['user_info'],
-			'cart_details' => $purchase_data['cart_details'],
-			'status'       => 'pending'
+			'price'           => $purchase_data['price'],
+			'give_form_title' => $purchase_data['post_data']['give-form-title'],
+			'give_form_id'    => intval( $purchase_data['post_data']['give-form-id'] ),
+			'date'            => $purchase_data['date'],
+			'user_email'      => $purchase_data['user_email'],
+			'purchase_key'    => $purchase_data['purchase_key'],
+			'currency'        => give_get_currency(),
+			'user_info'       => $purchase_data['user_info'],
+			'status'          => 'pending'
 		);
 
 		// Record the pending payment
@@ -162,7 +171,7 @@ class Give_WePay_Gateway {
 			$args['payment_method_type'] = 'credit_card';
 		}
 
-		// Let other plugins modify the data that goes to WePay (such as Crowd Funding)
+		// Let other plugins modify the data that goes to WePay
 		$args = apply_filters( 'give_wepay_checkout_args', $args );
 
 		//echo '<pre>'; print_r( $args ); echo '</pre>'; exit;
@@ -194,11 +203,9 @@ class Give_WePay_Gateway {
 				}
 
 				give_send_to_success_page( $query_str );
-				give_empty_cart();
 
 			} else {
 
-				give_empty_cart();
 				// Send to WePay terminal
 				if ( isset( $give_options['wepay_preapprove_only'] ) ) {
 					wp_redirect( $response->preapproval_uri );
@@ -216,6 +223,9 @@ class Give_WePay_Gateway {
 		}
 	}
 
+	/**
+	 * Confirm Payment
+	 */
 	public function confirm_payment() {
 
 		global $give_options;
@@ -297,11 +307,15 @@ class Give_WePay_Gateway {
 	}
 
 
+	/**
+	 * Plugin Scripts
+	 */
 	public function scripts() {
 		if ( ! $this->onsite_payments() ) {
 			return;
 		}
 
+		//Is this user in test mode?
 		if ( give_is_test_mode() ) {
 			$script_url = 'https://stage.wepay.com/min/js/tokenization.v2.js';
 		} else {
@@ -608,8 +622,8 @@ class Give_WePay_Gateway {
 			);
 
 			if ( 'preapproval' === $status ) {
-				$value = '<a href="' . add_query_arg( $preapproval_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button">' . __( 'Process Payment', 'give_wepay' ) . '</a>&nbsp;';
-				$value .= '<a href="' . add_query_arg( $cancel_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button">' . __( 'Cancel Preapproval', 'give_wepay' ) . '</a>';
+				$value = '<a href="' . add_query_arg( $preapproval_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small">' . __( 'Process Payment', 'give_wepay' ) . '</a>&nbsp;';
+				$value .= '<a href="' . add_query_arg( $cancel_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small">' . __( 'Cancel Preapproval', 'give_wepay' ) . '</a>';
 			}
 		}
 
@@ -629,38 +643,34 @@ class Give_WePay_Gateway {
 
 		$wepay_settings = apply_filters( 'give_gateway_wepay_settings', array(
 			array(
-				'id'   => 'wepay_settings',
-				'name' => '<strong>' . __( 'WePay Settings', 'give_wepay' ) . '</strong>',
-				'desc' => __( 'Configure the WePay settings', 'give_wepay' ),
-				'type' => 'header'
+				'name' => __( 'WePay Settings', 'give_wepay' ),
+				'desc' => '<hr>',
+				'id'   => 'give_title',
+				'type' => 'give_title'
 			),
 			array(
 				'id'   => 'wepay_client_id',
 				'name' => __( 'Client ID', 'give_wepay' ),
-				'desc' => __( 'Enter your client ID, found in your WePay API Account Settings', 'give_wepay' ),
+				'desc' => __( 'Enter your WebPay client ID', 'give_wepay' ),
 				'type' => 'text',
-				'size' => 'regular'
 			),
 			array(
 				'id'   => 'wepay_client_secret',
 				'name' => __( 'Client Secret', 'give_wepay' ),
-				'desc' => __( 'Enter your Client Secret, found in your WePay API Account Settings', 'give_wepay' ),
+				'desc' => __( 'Enter your Client Secret', 'give_wepay' ),
 				'type' => 'text',
-				'size' => 'regular'
 			),
 			array(
 				'id'   => 'wepay_access_token',
 				'name' => __( 'Access Token', 'give_wepay' ),
-				'desc' => __( 'Enter your Access Token, found in your WePay API Account Settings', 'give_wepay' ),
+				'desc' => __( 'Enter your Access Token', 'give_wepay' ),
 				'type' => 'text',
-				'size' => 'regular'
 			),
 			array(
 				'id'   => 'wepay_account_id',
 				'name' => __( 'Account ID', 'give_wepay' ),
-				'desc' => __( 'Enter your Account ID, found in your WePay API Account Settings', 'give_wepay' ),
+				'desc' => __( 'Enter your Account ID', 'give_wepay' ),
 				'type' => 'text',
-				'size' => 'regular'
 			),
 			array(
 				'id'   => 'wepay_preapprove_only',
@@ -671,37 +681,39 @@ class Give_WePay_Gateway {
 			array(
 				'id'      => 'wepay_payment_type',
 				'name'    => __( 'Payment Type', 'give_wepay' ),
-				'desc'    => __( 'Select the type of payment you want to process.', 'give_wepay' ),
+				'desc'    => __( 'Select the type of payment you would like to process.', 'give_wepay' ),
 				'type'    => 'select',
+				'default' => 'DONATION',
 				'options' => array(
 					'GOODS'    => __( 'Goods', 'give_wepay' ),
 					'SERVICE'  => __( 'Service', 'give_wepay' ),
 					'DONATION' => __( 'Donation', 'give_wepay' ),
 					'EVENT'    => __( 'Event', 'give_wepay' ),
 					'PERSONAL' => __( 'Personal', 'give_wepay' ),
-				)
+				),
+
 			),
 			array(
 				'id'      => 'wepay_fee_payer',
 				'name'    => __( 'Fee Payer', 'give_wepay' ),
-				'desc'    => __( 'Who pays the WePay fee on purchases?', 'give_wepay' ),
+				'desc'    => __( 'How would you like to collect the WePay gateway fee?', 'give_wepay' ),
 				'type'    => 'radio',
 				'options' => array(
-					'Payee' => __( 'Store', 'give_wepay' ),
-					'Payer' => __( 'Customer', 'give_wepay' )
+					'Payee' => __( 'Recipient', 'give_wepay' ),
+					'Payer' => __( 'Donor', 'give_wepay' )
 				),
-				'std'     => 'Payee'
+				'default' => 'Payee'
 			),
 			array(
 				'id'      => 'wepay_onsite_payments',
 				'name'    => __( 'On Site Payments', 'give_wepay' ),
-				'desc'    => __( 'Process credit cards on-site or send customers to WePay\'s terminal? On-site payments require SSL.', 'give_wepay' ),
+				'desc'    => __( 'Process credit cards on-site or send customers to WePay\'s terminal? Note: On-site payments require SSL.', 'give_wepay' ),
 				'type'    => 'radio',
 				'options' => array(
 					'onsite'  => __( 'On-Site', 'give_wepay' ),
 					'offsite' => __( 'Off-Site', 'give_wepay' )
 				),
-				'std'     => 'offsite'
+				'default' => 'offsite'
 			)
 		) );
 
@@ -750,6 +762,7 @@ class Give_WePay_Gateway {
 	 */
 
 	private function onsite_payments() {
+
 		global $give_options;
 
 		return isset( $give_options['wepay_onsite_payments'] ) && $give_options['wepay_onsite_payments'] == 'onsite';

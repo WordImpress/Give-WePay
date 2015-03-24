@@ -1,14 +1,20 @@
-var edd_global_vars;
+/**
+ * Give WePay Gateway
+ *
+ * @description The scripts that provides
+ *
+ */
+var give_global_vars;
 jQuery(document).ready(function($) {
 
 	// non ajaxed
-	$('body').on('submit', '#edd_purchase_form', function(event) {
+	$('body').on('submit', '#give_purchase_form', function(event) {
 
 		if( $('input[name="give-gateway"]').val() == 'wepay' ) {
 
 			event.preventDefault();
 
-			edd_wepay_process_card();
+			give_wepay_process_card();
 
 		}
 
@@ -16,16 +22,16 @@ jQuery(document).ready(function($) {
 });
 
 
-function edd_wepay_process_card() {
+function give_wepay_process_card() {
 
 	if( 1 == wepay_js.is_test_mode ) {
-		WePay.set_endpoint("stage");
+		WePay.set_endpoint('stage');
 	} else {
-		WePay.set_endpoint("production");
+		WePay.set_endpoint('production');
 	}
 
 	// disable the submit button to prevent repeated clicks
-	jQuery('#edd_purchase_form #give-purchase-button').attr('disabled', 'disabled');
+	jQuery('#give_purchase_form #give-purchase-button').attr('disabled', 'disabled');
 
 	if( typeof jQuery('#card_state_us').val() != 'undefined' ) {
 
@@ -62,22 +68,22 @@ function edd_wepay_process_card() {
 		if (data.error) {
 			// handle error responses
 			jQuery('.give-cart-ajax').hide();
-			jQuery('#edd_purchase_form #give-purchase-button').attr("disabled", false);
-			var error = '<div class="edd_errors"><p class="edd_error">' + data.error_description + '</p></div>';
+			jQuery('#give_purchase_form #give-purchase-button').attr("disabled", false);
+			var error = '<div class="give_errors"><p class="give_error">' + data.error_description + '</p></div>';
 			// show the errors on the form
 			jQuery('#give-wepay-payment-errors').html(error);
 		} else {
 			// handle success (probably you will submit the form with the credit_card_id)
 			jQuery('.give-cart-ajax').hide();
 
-			var form$ = jQuery("#edd_purchase_form");
+			var form$ = jQuery("#give_purchase_form");
 
-			jQuery('#edd_purchase_form #edd_cc_fields input[type="text"]').each(function() {
+			jQuery('#give_purchase_form #give_cc_fields input[type="text"]').each(function() {
 				jQuery(this).removeAttr('name');
 			});
 
 			// insert the token into the form so it gets submitted to the server
-			form$.append("<input type='hidden' name='edd_wepay_card' value='" + data.credit_card_id + "' />");
+			form$.append("<input type='hidden' name='give_wepay_card' value='" + data.credit_card_id + "' />");
 
 			// and submit
 			form$.get(0).submit();
@@ -89,8 +95,8 @@ function edd_wepay_process_card() {
 	if (response.error) {
 		// handle missing data errors
 		jQuery('.give-cart-ajax').hide();
-		jQuery('#edd_purchase_form #give-purchase-button').attr("disabled", false);
-		var error = '<div class="edd_errors"><p class="edd_error">' + response.error_description + '</p></div>';
+		jQuery('#give_purchase_form #give-purchase-button').attr("disabled", false);
+		var error = '<div class="give_errors"><p class="give_error">' + response.error_description + '</p></div>';
 		// show the errors on the form
 		jQuery('#give-wepay-payment-errors').html(error);
 	}
