@@ -110,7 +110,9 @@ class Give_WePay_Gateway {
 
 		global $give_options;
 
-		require dirname( __FILE__ ) . '/vendor/wepay.php';
+		if ( ! class_exists( 'WePay' ) ) {
+			require dirname( __FILE__ ) . '/vendor/wepay.php';
+		}
 
 		$creds = $this->get_api_credentials();
 
@@ -230,6 +232,7 @@ class Give_WePay_Gateway {
 
 		global $give_options;
 
+		//Checks
 		if ( empty( $_GET['payment-confirmation'] ) ) {
 			return;
 		}
@@ -238,11 +241,13 @@ class Give_WePay_Gateway {
 			return;
 		}
 
-		if ( 'wepay' != $_GET['payment-confirmation'] ) {
+		if (  $_GET['payment-confirmation'] != 'wepay' ) {
 			return;
 		}
 
-		require dirname( __FILE__ ) . '/vendor/wepay.php';
+		if ( ! class_exists( 'WePay' ) ) {
+			require dirname( __FILE__ ) . '/vendor/wepay.php';
+		}
 
 		$creds = $this->get_api_credentials();
 
@@ -311,6 +316,7 @@ class Give_WePay_Gateway {
 	 * Plugin Scripts
 	 */
 	public function scripts() {
+
 		if ( ! $this->onsite_payments() ) {
 			return;
 		}
@@ -324,12 +330,12 @@ class Give_WePay_Gateway {
 
 		$creds = $this->get_api_credentials();
 
-		wp_enqueue_script( 'wepay-tokenization', $script_url );
-		wp_enqueue_script( 'wepay-gateway', plugin_dir_url( __FILE__ ) . 'wepay.js', array(
-			'wepay-tokenization',
+		wp_enqueue_script( 'give-wepay-tokenization', $script_url );
+		wp_enqueue_script( 'give-wepay-gateway', plugin_dir_url( __FILE__ ) . 'wepay.js', array(
+			'give-wepay-tokenization',
 			'jquery'
 		) );
-		wp_localize_script( 'wepay-gateway', 'wepay_js', array(
+		wp_localize_script( 'give-wepay-gateway', 'give_wepay_js', array(
 			'is_test_mode' => give_is_test_mode() ? '1' : '0',
 			'client_id'    => $creds['client_id']
 		) );
@@ -417,7 +423,9 @@ class Give_WePay_Gateway {
 			return;
 		}
 
-		require dirname( __FILE__ ) . '/vendor/wepay.php';
+		if ( ! class_exists( 'WePay' ) ) {
+			require dirname( __FILE__ ) . '/vendor/wepay.php';
+		}
 
 		$payment_id = absint( $_GET['payment_id'] );
 
@@ -473,7 +481,9 @@ class Give_WePay_Gateway {
 			return false;
 		}
 
-		require_once( dirname( __FILE__ ) . '/vendor/wepay.php' );
+		if ( ! class_exists( 'WePay' ) ) {
+			require dirname( __FILE__ ) . '/vendor/wepay.php';
+		}
 
 		$creds = $this->get_api_credentials( $payment_id );
 
@@ -572,7 +582,7 @@ class Give_WePay_Gateway {
 
 		global $give_options;
 
-		if ( isset( $give_options['wepay_preapprove_only'] ) ) {
+		if ( isset( $give_options['wepay_preapprove_only'] ) && $give_options['wepay_preapprove_only'] == 'on' ) {
 			$columns['preapproval'] = __( 'Preapproval', 'give_wepay' );
 		}
 
@@ -622,8 +632,8 @@ class Give_WePay_Gateway {
 			);
 
 			if ( 'preapproval' === $status ) {
-				$value = '<a href="' . add_query_arg( $preapproval_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small">' . __( 'Process Payment', 'give_wepay' ) . '</a>&nbsp;';
-				$value .= '<a href="' . add_query_arg( $cancel_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small">' . __( 'Cancel Preapproval', 'give_wepay' ) . '</a>';
+				$value = '<a href="' . add_query_arg( $preapproval_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small" style="width: 120px; margin: 0 0 3px; text-align:center;">' . __( 'Process Payment', 'give_wepay' ) . '</a>&nbsp;';
+				$value .= '<a href="' . add_query_arg( $cancel_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small" style="width: 120px; margin: 0; text-align:center;">' . __( 'Cancel Preapproval', 'give_wepay' ) . '</a>';
 			}
 		}
 
@@ -638,7 +648,6 @@ class Give_WePay_Gateway {
 	 * @since       1.0
 	 * @return      array
 	 */
-
 	public function register_settings( $settings ) {
 
 		$wepay_settings = apply_filters( 'give_gateway_wepay_settings', array(
@@ -674,7 +683,7 @@ class Give_WePay_Gateway {
 			),
 			array(
 				'id'   => 'wepay_preapprove_only',
-				'name' => __( 'Preapprove Only?', 'give_wepay' ),
+				'name' => __( 'Preapprove Payments?', 'give_wepay' ),
 				'desc' => __( 'Check this if you would like to preapprove payments but not charge until a later date.', 'give_wepay' ),
 				'type' => 'checkbox'
 			),
@@ -744,7 +753,6 @@ class Give_WePay_Gateway {
 	 * @since       1.0
 	 * @return      string
 	 */
-
 	private function fee_payer() {
 		global $give_options;
 		$payer = isset( $give_options['wepay_fee_payer'] ) ? $give_options['wepay_fee_payer'] : 'Payee';
