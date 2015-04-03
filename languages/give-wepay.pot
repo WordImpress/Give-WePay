@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Give - WePay Gateway\n"
+"POT-Creation-Date: 2015-04-03 13:49-0800\n"
+"PO-Revision-Date: 2015-04-03 13:49-0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: give-wepay.php:95
+msgid "Credit Card"
+msgstr ""
+
+#: give-wepay.php:97
+msgid "Credit Card or Bank Account"
+msgstr ""
+
+#: give-wepay.php:272 give-wepay.php:292
+msgid "The store ID does not match those set in the site settings."
+msgstr ""
+
+#: give-wepay.php:272 give-wepay.php:276 give-wepay.php:292 give-wepay.php:296
+msgid "Error"
+msgstr ""
+
+#: give-wepay.php:276 give-wepay.php:296
+msgid ""
+"Your payment is still processing. Please refresh the page to see your "
+"purchase receipt."
+msgstr ""
+
+#: give-wepay.php:281
+#, php-format
+msgid "WePay Preapproval ID: %s"
+msgstr ""
+
+#: give-wepay.php:301
+#, php-format
+msgid "WePay Checkout ID: %s"
+msgstr ""
+
+#: give-wepay.php:367
+msgid "The preapproved payment was successfully charged."
+msgstr ""
+
+#: give-wepay.php:370
+msgid "The preapproved payment failed to be charged."
+msgstr ""
+
+#: give-wepay.php:373
+msgid "The preapproved payment was successfully cancelled."
+msgstr ""
+
+#: give-wepay.php:461
+msgid "Preapproval cancelled"
+msgstr ""
+
+#: give-wepay.php:516
+#, php-format
+msgid "Charge of preapproved payment %s"
+msgstr ""
+
+#: give-wepay.php:543
+msgctxt "Preapproved payment"
+msgid "Preapproved"
+msgstr ""
+
+#: give-wepay.php:548 give-wepay.php:556
+#, php-format
+msgid "Active <span class=\"count\">(%s)</span>"
+msgid_plural "Active <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: give-wepay.php:551
+msgctxt "Cancelled payment"
+msgid "Cancelled"
+msgstr ""
+
+#: give-wepay.php:568
+msgid "Preapproved"
+msgstr ""
+
+#: give-wepay.php:569 give-wepay.php:605
+msgid "Cancelled"
+msgstr ""
+
+#: give-wepay.php:586
+msgid "Preapproval"
+msgstr ""
+
+#: give-wepay.php:604
+msgid "Preapproval Pending"
+msgstr ""
+
+#: give-wepay.php:635
+msgid "Process Payment"
+msgstr ""
+
+#: give-wepay.php:636
+msgid "Cancel Preapproval"
+msgstr ""
+
+#: give-wepay.php:655
+msgid "WePay Settings"
+msgstr ""
+
+#: give-wepay.php:662
+msgid "Client ID"
+msgstr ""
+
+#: give-wepay.php:663
+msgid "Enter your WebPay client ID"
+msgstr ""
+
+#: give-wepay.php:668
+msgid "Client Secret"
+msgstr ""
+
+#: give-wepay.php:669
+msgid "Enter your Client Secret"
+msgstr ""
+
+#: give-wepay.php:674
+msgid "Access Token"
+msgstr ""
+
+#: give-wepay.php:675
+msgid "Enter your Access Token"
+msgstr ""
+
+#: give-wepay.php:680
+msgid "Account ID"
+msgstr ""
+
+#: give-wepay.php:681
+msgid "Enter your Account ID"
+msgstr ""
+
+#: give-wepay.php:686
+msgid "Preapprove Payments?"
+msgstr ""
+
+#: give-wepay.php:687
+msgid ""
+"Check this if you would like to preapprove payments but not charge until a "
+"later date."
+msgstr ""
+
+#: give-wepay.php:692
+msgid "Payment Type"
+msgstr ""
+
+#: give-wepay.php:693
+msgid "Select the type of payment you would like to process."
+msgstr ""
+
+#: give-wepay.php:697
+msgid "Goods"
+msgstr ""
+
+#: give-wepay.php:698
+msgid "Service"
+msgstr ""
+
+#: give-wepay.php:699
+msgid "Donation"
+msgstr ""
+
+#: give-wepay.php:700
+msgid "Event"
+msgstr ""
+
+#: give-wepay.php:701
+msgid "Personal"
+msgstr ""
+
+#: give-wepay.php:707
+msgid "Fee Payer"
+msgstr ""
+
+#: give-wepay.php:708
+msgid "How would you like to collect the WePay gateway fee?"
+msgstr ""
+
+#: give-wepay.php:711
+msgid "Recipient"
+msgstr ""
+
+#: give-wepay.php:712
+msgid "Donor"
+msgstr ""
+
+#: give-wepay.php:718
+msgid "On Site Payments"
+msgstr ""
+
+#: give-wepay.php:719
+msgid ""
+"Process credit cards on-site or send customers to WePay's terminal? Note: On-"
+"site payments require SSL."
+msgstr ""
+
+#: give-wepay.php:722
+msgid "On-Site"
+msgstr ""
+
+#: give-wepay.php:723
+msgid "Off-Site"
+msgstr ""
