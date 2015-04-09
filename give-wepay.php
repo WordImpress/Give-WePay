@@ -241,7 +241,7 @@ class Give_WePay_Gateway {
 			return;
 		}
 
-		if (  $_GET['payment-confirmation'] != 'wepay' ) {
+		if ( $_GET['payment-confirmation'] != 'wepay' ) {
 			return;
 		}
 
@@ -654,7 +654,7 @@ class Give_WePay_Gateway {
 			array(
 				'name' => __( 'WePay Settings', 'give_wepay' ),
 				'desc' => '<hr>',
-				'id'   => 'give_title',
+				'id'   => 'give_title_wepay',
 				'type' => 'give_title'
 			),
 			array(
