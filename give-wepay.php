@@ -175,8 +175,7 @@ class Give_WePay_Gateway {
 			'reference_id'      => $purchase_data['purchase_key'],
 		);
 
-		//Preapproval payment?
-		//Preapproval payments have a different structure
+		//Preapproval payment? Preapproval payments have a different structure
 		//@see: https://www.wepay.com/developer/reference/preapproval#create
 		if ( isset( $give_options['wepay_preapprove_only'] ) ) {
 			//Use payment_method param: use a tokenized card
@@ -193,13 +192,20 @@ class Give_WePay_Gateway {
 			$args['type'] = $this->payment_type();
 		}
 
-		//This is an offsite "hosted" checkout (send to wepay)
+		//This is an onsite payment
 		if ( $this->onsite_payments() && ! empty( $_POST['give_wepay_card'] ) ) {
 
 			//Use payment_method param:
 			$args['payment_method'] = array(
-				'payment_method_id'   => $_POST['give_wepay_card'],
-				'payment_method_type' => 'credit_card'
+				'type'        => 'credit_card',
+				'credit_card' => array(
+					'id' => $_POST['give_wepay_card'],
+				)
+			);
+
+			//Fees
+			$args['fee'] = array(
+				'fee_payer' => $this->fee_payer(),
 			);
 
 		} elseif ( ! isset( $args['period'] ) ) {
@@ -215,15 +221,13 @@ class Give_WePay_Gateway {
 			);
 		}
 
-		//@TODO: Take care of Fees!
-		//		'fee'               => array(
-		//				'fee_payer' => $this->fee_payer(),
-		//			),
-
 
 		// Let other plugins modify the data that goes to WePay
 		$args = apply_filters( 'give_wepay_checkout_args', $args );
 
+		/**
+		 * Uncomment below for testing only!
+		 */
 		//		echo '<pre>';
 		//		print_r( $args );
 		//		echo '</pre>';
@@ -311,6 +315,7 @@ class Give_WePay_Gateway {
 
 		try {
 
+			//Preapproval donation payments
 			if ( isset( $give_options['wepay_preapprove_only'] ) ) {
 
 				$preapproval_id = urldecode( $_GET['preapproval_id'] );
@@ -336,10 +341,12 @@ class Give_WePay_Gateway {
 				}
 
 
-			} else {
+			} //All other donation payments
+			else {
 
-				$checkout_id = urldecode( $_GET['checkout_id'] );
-				$response    = $wepay->request( 'checkout', array(
+				$checkout_id = isset( $_GET['checkout_id'] ) ? urldecode( $_GET['checkout_id'] ) : '';
+
+				$response = $wepay->request( 'checkout', array(
 					'checkout_id' => $checkout_id
 				) );
 
