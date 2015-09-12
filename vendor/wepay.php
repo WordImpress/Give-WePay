@@ -241,6 +241,9 @@ class WePay {
 		curl_setopt( self::$ch, CURLOPT_USERAGENT, 'WePay v2 PHP SDK v' . self::VERSION . ' Client id:' . self::$client_id );
 		curl_setopt( self::$ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( self::$ch, CURLOPT_HTTPHEADER, $headers );
+		if(defined('WP_DEBUG') && WP_DEBUG === true ){
+			curl_setopt( self::$ch, CURLOPT_SSL_VERIFYPEER , false );
+		}
 		curl_setopt( self::$ch, CURLOPT_TIMEOUT, 30 ); // 30-second timeout, adjust to taste
 		curl_setopt( self::$ch, CURLOPT_POST, ! empty( $values ) ); // WePay's API is not strictly RESTful, so all requests are sent as POST unless there are no request values
 

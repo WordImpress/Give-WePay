@@ -1,9 +1,9 @@
 === Give - WePay Gateway ===
 Contributors: wordimpress, dlocc, webdevmattcrom
 Tags: donations, donation, ecommerce, e-commerce, fundraising, fundraiser, wepay, we pay, gateway
-Requires at least: 3.8
-Tested up to: 4.2
-Stable tag: 1.0
+Requires at least: 4.0
+Tested up to: 4.3
+Stable tag: 1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -24,7 +24,7 @@ This plugin requires the Give plugin activated to function properly. When activa
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of the Give WePay , log in to your account, navigate to the Plugins menu and click Add New.
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of the Give WePay, log in to your account, navigate to the Plugins menu and click Add New.
 
 In the search field type "Give" and click Search Plugins. Once you have found the plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking "Install Now".
 
@@ -38,7 +38,12 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Changelog ==
 
-= 1.0 =
+= 1.1 =
+* Important updates to ensure Add-on is compatible with the latest WePay API version
+* Fix: "Error: currency parameter is required"
+* Fix: Ensure if the donation level name is passed to WePay in addition to the form name. For example, "Help Shelter the Homeless - Shelter for a Month" rather than just "Help Shelter the Homeless".
+* Updated: Text and language improvements
 
+= 1.0 =
 * Initial plugin release. Yippee!
 
