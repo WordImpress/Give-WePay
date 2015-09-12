@@ -14,6 +14,10 @@ define( 'GIVE_WEPAY_VERSION', '1.1' );
 if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
 	define( 'GIVE_WEPAY_DIR', plugin_dir_path( __FILE__ ) );
 }
+// Plugin Folder Path
+if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
+	define( 'GIVE_WEPAY_API_VERSION', '2015-09-09' );
+}
 
 class Give_WePay_Gateway {
 
@@ -124,9 +128,9 @@ class Give_WePay_Gateway {
 		$creds = $this->get_api_credentials();
 
 		if ( give_is_test_mode() ) {
-			Wepay::useStaging( $creds['client_id'], $creds['client_secret'] );
+			Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 		} else {
-			Wepay::useProduction( $creds['client_id'], $creds['client_secret'] );
+			Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 		}
 
 		$wepay = new WePay( $creds['access_token'] );
@@ -298,9 +302,9 @@ class Give_WePay_Gateway {
 		$creds = $this->get_api_credentials();
 
 		if ( give_is_test_mode() ) {
-			Wepay::useStaging( $creds['client_id'], $creds['client_secret'] );
+			Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 		} else {
-			Wepay::useProduction( $creds['client_id'], $creds['client_secret'] );
+			Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 		}
 
 		$wepay = new WePay( $creds['access_token'] );
@@ -495,9 +499,9 @@ class Give_WePay_Gateway {
 		$creds = $this->get_api_credentials();
 
 		if ( give_is_test_mode() ) {
-			Wepay::useStaging( $creds['client_id'], $creds['client_secret'] );
+			Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 		} else {
-			Wepay::useProduction( $creds['client_id'], $creds['client_secret'] );
+			Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 		}
 
 		$wepay = new WePay( $creds['access_token'] );
@@ -544,9 +548,9 @@ class Give_WePay_Gateway {
 
 		try {
 			if ( give_is_test_mode() ) {
-				Wepay::useStaging( $creds['client_id'], $creds['client_secret'] );
+				Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 			} else {
-				Wepay::useProduction( $creds['client_id'], $creds['client_secret'] );
+				Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 			}
 		}
 		catch ( RuntimeException $e ) {
