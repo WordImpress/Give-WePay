@@ -10,11 +10,13 @@
  */
 
 define( 'GIVE_WEPAY_VERSION', '1.1' );
+
 // Plugin Folder Path
 if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
 	define( 'GIVE_WEPAY_DIR', plugin_dir_path( __FILE__ ) );
 }
-// Plugin Folder Path
+
+// WePay API Version that Give uses (muy importante)
 if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
 	define( 'GIVE_WEPAY_API_VERSION', '2015-09-09' );
 }
@@ -188,12 +190,19 @@ class Give_WePay_Gateway {
 			);
 			$args['fee_payer']    = $this->fee_payer();
 
+			if ( $this->onsite_payments() && ! empty( $_POST['give_wepay_card'] ) ) {
+				// Use a tokenized card
+				$args['payment_method_id']   = $_POST['give_wepay_card'];
+				$args['payment_method_type'] = 'credit_card';
+			}
+
+
 		} else {
 			$args['type'] = $this->payment_type();
 		}
 
-		//This is an onsite payment
-		if ( $this->onsite_payments() && ! empty( $_POST['give_wepay_card'] ) ) {
+		//This is an onsite payment AND not preapproval
+		if ( $this->onsite_payments() && ! empty( $_POST['give_wepay_card'] ) && !isset( $give_options['wepay_preapprove_only'] ) ) {
 
 			//Use payment_method param:
 			$args['payment_method'] = array(
