@@ -2,7 +2,7 @@
 Contributors: wordimpress, dlocc, webdevmattcrom
 Tags: donations, donation, ecommerce, e-commerce, fundraising, fundraiser, wepay, we pay, gateway
 Requires at least: 4.0
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: 1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,6 +37,9 @@ The manual installation method involves downloading our donation plugin and uplo
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
 == Changelog ==
+
+= 1.2 =
+* Updated: Reorganized and optimized code within the plugin in preparation of Give Recurring release
 
 = 1.1 =
 * Important updates to ensure Add-on is compatible with the latest WePay API version

@@ -21,19 +21,41 @@ if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
 	define( 'GIVE_WEPAY_API_VERSION', '2015-09-09' );
 }
 
-class Give_WePay_Gateway {
+final class Give_WePay_Gateway {
 
+	/** Singleton *************************************************************/
+
+	/**
+	 * @var Give_WePay_Gateway The one true Give_WePay_Gateway
+	 */
+	private static $instance;
 	private $client_id;
 	private $client_secret;
 	private $access_token;
 	private $account_id;
 
-	function __construct() {
 
-		//Give dependents
-		add_action( 'plugins_loaded', array( $this, 'wepay_init' ) );
-		add_action( 'plugins_loaded', array( $this, 'give_add_wepay_licensing' ) );
+	/**
+	 * Main Give_Recurring Instance
+	 *
+	 * Insures that only one instance of Give_Recurring exists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
+	 *
+	 * @since     v1.0
+	 * @staticvar array $instance
+	 * @uses      Give_Recurring::setup_globals() Setup the globals needed
+	 * @uses      Give_Recurring::includes() Include the required files
+	 * @uses      Give_Recurring::setup_actions() Setup the hooks and actions
+	 * @see       Give()
+	 * @return The one true Give_Recurring
+	 */
+	public static function instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new Give_WePay_Gateway();
+			self::$instance->wepay_init();
+		}
 
+		return self::$instance;
 	}
 
 
@@ -47,7 +69,7 @@ class Give_WePay_Gateway {
 		add_filter( 'give_payments_table_views', array( $this, 'payment_status_filters' ) );
 
 		// Actions
-		add_action( 'give_gateway_wepay', array( $this, 'process_payment' ) );
+		add_action( 'give_gateway_wepay', array( $this, 'process_wepay_payment' ) );
 		if ( ! $this->onsite_payments() ) {
 			add_action( 'give_wepay_cc_form', '__return_false' );
 		}
@@ -58,6 +80,7 @@ class Give_WePay_Gateway {
 		add_action( 'init', array( $this, 'register_post_statuses' ), 110 );
 		add_action( 'give_charge_wepay_preapproval', array( $this, 'process_preapproved_charge' ) );
 		add_action( 'give_cancel_wepay_preapproval', array( $this, 'process_preapproved_cancel' ) );
+		add_action( 'init', array( $this, 'give_add_wepay_licensing' ) );
 
 		//Includes
 		require_once GIVE_WEPAY_DIR . 'includes/admin/settings.php';
@@ -77,11 +100,10 @@ class Give_WePay_Gateway {
 	/**
 	 * Get API Credentials
 	 *
-	 * @param int $payment_id
-	 *
 	 * @return mixed|void
 	 */
-	public function get_api_credentials( $payment_id = 0 ) {
+	public function get_api_credentials() {
+
 		global $give_options;
 
 		$creds                  = array();
@@ -90,8 +112,30 @@ class Give_WePay_Gateway {
 		$creds['access_token']  = trim( $give_options['wepay_access_token'] );
 		$creds['account_id']    = trim( $give_options['wepay_account_id'] );
 
-		return apply_filters( 'give_wepay_get_api_creds', $creds, $payment_id );
+		return apply_filters( 'give_wepay_get_api_creds', $creds );
 
+	}
+
+
+	/**
+	 * @return WePay
+	 */
+	public function get_wepay_api() {
+
+		$creds = $this->get_api_credentials();
+
+		try {
+			if ( give_is_test_mode() ) {
+				Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
+			} else {
+				Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
+			}
+		}
+		catch ( RuntimeException $e ) {
+			// already been setup
+		}
+
+		return new WePay( $creds['access_token'] );
 	}
 
 	/**
@@ -107,7 +151,11 @@ class Give_WePay_Gateway {
 		} else {
 			$checkout_label = __( 'Credit Card or Bank Account', 'give_wepay' );
 		}
-		$gateways['wepay'] = array( 'admin_label' => 'WePay', 'checkout_label' => $checkout_label );
+
+		$gateways['wepay'] = array(
+			'admin_label'    => __( 'WePay', 'give_webpay' ),
+			'checkout_label' => $checkout_label
+		);
 
 		return $gateways;
 	}
@@ -119,7 +167,7 @@ class Give_WePay_Gateway {
 	 *
 	 * @see: https://www.wepay.com/developer/reference/checkout#create
 	 */
-	public function process_payment( $purchase_data ) {
+	public function process_wepay_payment( $purchase_data ) {
 
 		global $give_options;
 
@@ -128,14 +176,7 @@ class Give_WePay_Gateway {
 		}
 
 		$creds = $this->get_api_credentials();
-
-		if ( give_is_test_mode() ) {
-			Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-		} else {
-			Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-		}
-
-		$wepay = new WePay( $creds['access_token'] );
+		$wepay = $this->get_wepay_api();
 
 		// Collect payment data
 		$payment_data = array(
@@ -202,7 +243,7 @@ class Give_WePay_Gateway {
 		}
 
 		//This is an onsite payment AND not preapproval
-		if ( $this->onsite_payments() && ! empty( $_POST['give_wepay_card'] ) && !isset( $give_options['wepay_preapprove_only'] ) ) {
+		if ( $this->onsite_payments() && ! empty( $_POST['give_wepay_card'] ) && ! isset( $give_options['wepay_preapprove_only'] ) ) {
 
 			//Use payment_method param:
 			$args['payment_method'] = array(
@@ -313,14 +354,7 @@ class Give_WePay_Gateway {
 		}
 
 		$creds = $this->get_api_credentials();
-
-		if ( give_is_test_mode() ) {
-			Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-		} else {
-			Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-		}
-
-		$wepay = new WePay( $creds['access_token'] );
+		$wepay = $this->get_wepay_api();
 
 		try {
 
@@ -513,14 +547,7 @@ class Give_WePay_Gateway {
 		}
 
 		$creds = $this->get_api_credentials();
-
-		if ( give_is_test_mode() ) {
-			Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-		} else {
-			Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-		}
-
-		$wepay = new WePay( $creds['access_token'] );
+		$wepay = $this->get_wepay_api();
 
 		$response = $wepay->request( 'preapproval/find', array(
 			'reference_id' => give_get_payment_key( $payment_id ),
@@ -560,20 +587,8 @@ class Give_WePay_Gateway {
 			require dirname( __FILE__ ) . '/vendor/wepay.php';
 		}
 
-		$creds = $this->get_api_credentials( $payment_id );
-
-		try {
-			if ( give_is_test_mode() ) {
-				Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-			} else {
-				Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
-			}
-		}
-		catch ( RuntimeException $e ) {
-			// already been setup
-		}
-
-		$wepay = new WePay( $creds['access_token'] );
+		$creds = $this->get_api_credentials();
+		$wepay = $this->get_wepay_api();
 
 		$response = $wepay->request( 'preapproval/find', array(
 			'reference_id' => give_get_payment_key( $payment_id ),
@@ -764,7 +779,7 @@ class Give_WePay_Gateway {
 	 * @return      string
 	 */
 
-	private function onsite_payments() {
+	public static function onsite_payments() {
 
 		global $give_options;
 
@@ -773,4 +788,27 @@ class Give_WePay_Gateway {
 
 }
 
-$give_wepay = new Give_WePay_Gateway;
+/**
+ * The main function responsible for returning the one true Give_WePay_Gateway Instance
+ * to functions everywhere.
+ *
+ * Use this function like you would a global variable, except without needing
+ * to declare the global.
+ *
+ * Example: <?php $recurring = Give_WePay_Gateway(); ?>
+ *
+ * @since v1.0
+ *
+ * @return mixed one true Give_WePay_Gateway Instance
+ */
+
+function Give_WePay() {
+
+	if ( ! class_exists( 'Give' ) ) {
+		return false;
+	}
+
+	return Give_WePay_Gateway::instance();
+}
+
+add_action( 'plugins_loaded', 'Give_WePay' );
