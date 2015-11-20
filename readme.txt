@@ -40,6 +40,8 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 = 1.2 =
 * Updated: Reorganized and optimized code within the plugin in preparation of Give Recurring release
+* Updated: WePay PHP SDK updated to the latest version (3.0)
+* Updated: WePay PHP SDK also now included .pem file for better cURL compatibility
 
 = 1.1 =
 * Important updates to ensure Add-on is compatible with the latest WePay API version

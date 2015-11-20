@@ -16,6 +16,11 @@ if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
 	define( 'GIVE_WEPAY_DIR', plugin_dir_path( __FILE__ ) );
 }
 
+//Plugin Folder URL
+if ( ! defined( 'GIVE_WEPAY_URL' ) ) {
+	define( 'GIVE_WEPAY_URL', plugin_dir_url( __FILE__ ) );
+}
+
 // WePay API Version that Give uses (muy importante)
 if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
 	define( 'GIVE_WEPAY_API_VERSION', '2015-09-09' );
@@ -438,7 +443,7 @@ final class Give_WePay_Gateway {
 		wp_register_script( 'give-wepay-tokenization', $script_url );
 		wp_enqueue_script( 'give-wepay-tokenization' );
 
-		wp_register_script( 'give-wepay-gateway', plugin_dir_url( __FILE__ ) . 'wepay.js', array(
+		wp_register_script( 'give-wepay-gateway', GIVE_WEPAY_URL . 'assets/js/wepay.js', array(
 			'give-wepay-tokenization',
 			'jquery'
 		) );
