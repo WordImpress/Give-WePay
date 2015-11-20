@@ -6,7 +6,7 @@
  */
 var give_global_vars, give_wepay_js;
 jQuery( document ).ready( function ( $ ) {
-alert('here');
+
 	$( 'body' ).on( 'submit', '.give-form', function ( e ) {
 
 		var $form = $( this );
