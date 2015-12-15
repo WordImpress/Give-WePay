@@ -276,7 +276,9 @@ class WePay
         // Force TLS 1.2 connections
         curl_setopt(self::$ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt(self::$ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt(self::$ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+	    if(defined('CURL_SSLVERSION_TLSv1_2')) {
+		    curl_setopt(self::$ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+	    }
 
         $uri = self::getDomain() . $endpoint;
         curl_setopt(self::$ch, CURLOPT_URL, $uri);
