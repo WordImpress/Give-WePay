@@ -2,8 +2,8 @@
 Contributors: wordimpress, dlocc, webdevmattcrom
 Tags: donations, donation, ecommerce, e-commerce, fundraising, fundraiser, wepay, we pay, gateway
 Requires at least: 4.0
-Tested up to: 4.4
-Stable tag: 1.1
+Tested up to: 4.4.1
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,6 +39,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 == Changelog ==
 
 = 1.2 =
+* Fix: Bug where the "Fee Payer" would be inappropriately set to "Donor" when actually set to "Recipient"
+* Fix: Issue where duplicate admin notices displayed when preapproving payments
+* Fix: PHP Notice with WePay and constant CURL_SSLVERSION_TLSv1_2
 * Updated: Reorganized and optimized code within the plugin in preparation of Give Recurring release
 * Updated: WePay PHP SDK updated to the latest version (3.0)
 * Updated: WePay PHP SDK also now included .pem file for better cURL compatibility
