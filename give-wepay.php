@@ -6,10 +6,11 @@
  * Author URI: https://wordimpress.com
  * Text Domain: give_wepay
  * Domain Path: languages
- * Version: 1.1
+ * Version: 1.2
+ * GitHub Plugin URI: https://github.com/WordImpress/Give-WePay
  */
 
-define( 'GIVE_WEPAY_VERSION', '1.1' );
+define( 'GIVE_WEPAY_VERSION', '1.2' );
 
 // Plugin Folder Path
 if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
@@ -211,8 +212,7 @@ final class Give_WePay_Gateway {
 		}
 
 		// Record the pending payment
-		$payment = give_insert_payment( $payment_data );
-
+		$payment  = give_insert_payment( $payment_data );
 		$endpoint = isset( $give_options['wepay_preapprove_only'] ) ? 'preapproval' : 'checkout';
 
 		$args = array(
@@ -223,9 +223,9 @@ final class Give_WePay_Gateway {
 			'reference_id'      => $purchase_data['purchase_key'],
 		);
 
-		//Preapproval payment? Preapproval payments have a different structure
+		//Preapproval payment: Preapproval payments have a different structure
 		//@see: https://www.wepay.com/developer/reference/preapproval#create
-		if ( isset( $give_options['wepay_preapprove_only'] ) ) {
+		if ( $endpoint == 'preapproval' ) {
 			//Use payment_method param: use a tokenized card
 			$args['period']       = 'once';
 			$args['redirect_uri'] = add_query_arg( 'payment-confirmation', 'wepay', get_permalink( $give_options['success_page'] ) );
@@ -241,7 +241,6 @@ final class Give_WePay_Gateway {
 				$args['payment_method_id']   = $_POST['give_wepay_card'];
 				$args['payment_method_type'] = 'credit_card';
 			}
-
 
 		} else {
 			$args['type'] = $this->payment_type();
@@ -264,8 +263,8 @@ final class Give_WePay_Gateway {
 			);
 
 		} elseif ( ! isset( $args['period'] ) ) {
-			//Is this an onsite payment & not pre-approval?
-			//Onsite so use hosted_checkout
+
+			//Is this an offsite payment
 			$args['hosted_checkout'] = array(
 				'redirect_uri' => add_query_arg( 'payment-confirmation', 'wepay', get_permalink( $give_options['success_page'] ) ),
 				'fallback_uri' => give_get_failed_transaction_uri(),
@@ -274,8 +273,13 @@ final class Give_WePay_Gateway {
 					'email' => $purchase_data['user_email'],
 				),
 			);
-		}
 
+			//Fees
+			$args['fee'] = array(
+				'fee_payer' => $this->fee_payer(),
+			);
+
+		}
 
 		// Let other plugins modify the data that goes to WePay
 		$args = apply_filters( 'give_wepay_checkout_args', $args );
@@ -283,10 +287,10 @@ final class Give_WePay_Gateway {
 		/**
 		 * Uncomment below for testing only!
 		 */
-		//		echo '<pre>';
-		//		print_r( $args );
-		//		echo '</pre>';
-		//		exit;
+//		echo '<pre>';
+//		print_r( $args );
+//		echo '</pre>';
+//		exit;
 
 		// create the checkout
 		try {
@@ -474,7 +478,6 @@ final class Give_WePay_Gateway {
 	 * @since       1.0
 	 * @return      void
 	 */
-
 	public function admin_messages() {
 
 		if ( isset( $_GET['give-message'] ) && 'preapproval-charged' == $_GET['give-message'] ) {
@@ -487,7 +490,6 @@ final class Give_WePay_Gateway {
 			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-cancelled', __( 'The preapproved payment was successfully cancelled.', 'give_wepay' ), 'updated' );
 		}
 
-		settings_errors( 'give-wepay-notices' );
 	}
 
 	/**
@@ -764,15 +766,21 @@ final class Give_WePay_Gateway {
 	/**
 	 * Who pays the fee?
 	 *
+	 * @see         : https://www.wepay.com/developer/reference/structures#fee
+	 *
 	 * @access      public
 	 * @since       1.0
 	 * @return      string
 	 */
 	private function fee_payer() {
+
 		global $give_options;
+
+		//Payer or Payee (lowercase)
 		$payer = isset( $give_options['wepay_fee_payer'] ) ? $give_options['wepay_fee_payer'] : 'Payee';
 
 		return strtolower( $payer );
+
 	}
 
 
