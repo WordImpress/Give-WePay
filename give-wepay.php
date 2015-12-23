@@ -113,10 +113,10 @@ final class Give_WePay_Gateway {
 		global $give_options;
 
 		$creds                  = array();
-		$creds['client_id']     = trim( $give_options['wepay_client_id'] );
-		$creds['client_secret'] = trim( $give_options['wepay_client_secret'] );
-		$creds['access_token']  = trim( $give_options['wepay_access_token'] );
-		$creds['account_id']    = trim( $give_options['wepay_account_id'] );
+		$creds['client_id']     = isset( $give_options['wepay_client_id'] ) ? trim( $give_options['wepay_client_id'] ) : '';
+		$creds['client_secret'] = isset( $give_options['wepay_client_secret'] ) ? trim( $give_options['wepay_client_secret'] ) : '';
+		$creds['access_token']  = isset( $give_options['wepay_access_token'] ) ? trim( $give_options['wepay_access_token'] ) : '';
+		$creds['account_id']    = isset( $give_options['wepay_account_id'] ) ? trim( $give_options['wepay_account_id'] ) : '';
 
 		return apply_filters( 'give_wepay_get_api_creds', $creds );
 
@@ -124,6 +124,8 @@ final class Give_WePay_Gateway {
 
 
 	/**
+	 * Get WePay API
+	 *
 	 * @return WePay
 	 */
 	public function get_wepay_api() {
@@ -287,10 +289,10 @@ final class Give_WePay_Gateway {
 		/**
 		 * Uncomment below for testing only!
 		 */
-//		echo '<pre>';
-//		print_r( $args );
-//		echo '</pre>';
-//		exit;
+		//		echo '<pre>';
+		//		print_r( $args );
+		//		echo '</pre>';
+		//		exit;
 
 		// create the checkout
 		try {
@@ -718,10 +720,18 @@ final class Give_WePay_Gateway {
 	 * Show the Process / Cancel buttons for preapproved payments
 	 *
 	 * @since 1.0
+	 *
+	 * @param $value
+	 * @param $payment_id
+	 * @param $column_name
+	 *
 	 * @return string
 	 */
 	public function payment_column_data( $value, $payment_id, $column_name ) {
-		if ( $column_name == 'preapproval' ) {
+
+		$gateway = give_get_payment_gateway( $payment_id );
+
+		if ( $column_name == 'preapproval' && $gateway == 'wepay' ) {
 			$status = get_post_status( $payment_id );
 
 			$nonce = wp_create_nonce( 'give-wepay-process-preapproval' );
