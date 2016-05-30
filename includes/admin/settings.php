@@ -28,7 +28,7 @@ function give_register_wepay_settings( $settings ) {
 		array(
 			'id'   => 'wepay_client_id',
 			'name' => __( 'Client ID', 'give_wepay' ),
-			'desc' => __( 'Enter your WebPay client ID', 'give_wepay' ),
+			'desc' => __( 'Enter your WePay client ID', 'give_wepay' ),
 			'type' => 'text',
 		),
 		array(
