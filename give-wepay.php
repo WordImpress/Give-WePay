@@ -27,6 +27,9 @@ if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
 	define( 'GIVE_WEPAY_API_VERSION', '2015-09-09' );
 }
 
+/**
+ * Class Give_WePay_Gateway
+ */
 final class Give_WePay_Gateway {
 
 	/** Singleton *************************************************************/
@@ -138,8 +141,7 @@ final class Give_WePay_Gateway {
 			} else {
 				Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 			}
-		}
-		catch ( RuntimeException $e ) {
+		} catch ( RuntimeException $e ) {
 			// already been setup
 		}
 
@@ -154,6 +156,7 @@ final class Give_WePay_Gateway {
 	 * @return mixed
 	 */
 	public function register_gateway( $gateways ) {
+
 		if ( $this->onsite_payments() ) {
 			$checkout_label = __( 'Credit Card', 'give_wepay' );
 		} else {
@@ -333,8 +336,7 @@ final class Give_WePay_Gateway {
 				}
 
 			}
-		}
-		catch ( WePayException $e ) {
+		} catch ( WePayException $e ) {
 			give_set_error( 'give_wepay_exception', $e->getMessage() );
 			give_send_back_to_checkout( '?payment-mode=wepay' );
 		}
@@ -418,8 +420,7 @@ final class Give_WePay_Gateway {
 				give_update_payment_status( $payment_id, 'publish' );
 			}
 
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 
 			// Show a message if there was an error of some kind
 
@@ -433,6 +434,7 @@ final class Give_WePay_Gateway {
 	 */
 	public function scripts() {
 
+		//Onsite payments only
 		if ( ! $this->onsite_payments() ) {
 			return;
 		}
@@ -628,8 +630,7 @@ final class Give_WePay_Gateway {
 				give_update_payment_status( $payment_id, 'publish' );
 
 				return true;
-			}
-			catch ( WePayException $e ) {
+			} catch ( WePayException $e ) {
 				give_insert_payment_note( $payment_id, 'WePay Checkout Error: ' . $e->getMessage() );
 
 				do_action( 'give_wepay_charge_failed', $e );
@@ -799,14 +800,13 @@ final class Give_WePay_Gateway {
 	 *
 	 * @access      public
 	 * @since       1.0
-	 * @return      string
+	 * @return bool
 	 */
-
 	public static function onsite_payments() {
 
-		global $give_options;
+		$onsite_option = give_get_option( 'wepay_onsite_payments' );
 
-		return isset( $give_options['wepay_onsite_payments'] ) && $give_options['wepay_onsite_payments'] == 'onsite';
+		return isset( $onsite_option ) && $onsite_option == 'onsite';
 	}
 
 }
