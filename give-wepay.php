@@ -100,7 +100,7 @@ final class Give_WePay_Gateway {
 	 * Licensing
 	 */
 	function give_add_wepay_licensing() {
-		if ( class_exists( 'Give_License' ) && is_admin() ) {
+		if ( class_exists( 'Give_License' ) ) {
 			$give_wepay_license = new Give_License( __FILE__, 'WePay Gateway', GIVE_WEPAY_VERSION, 'Devin Walker', 'wepay_license_key' );
 		}
 	}
