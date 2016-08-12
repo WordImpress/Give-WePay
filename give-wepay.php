@@ -114,13 +114,20 @@ final class Give_WePay_Gateway {
 	 */
 	public function get_api_credentials() {
 
-		global $give_options;
+		$creds = array();
 
-		$creds                  = array();
-		$creds['client_id']     = isset( $give_options['wepay_client_id'] ) ? trim( $give_options['wepay_client_id'] ) : '';
-		$creds['client_secret'] = isset( $give_options['wepay_client_secret'] ) ? trim( $give_options['wepay_client_secret'] ) : '';
-		$creds['access_token']  = isset( $give_options['wepay_access_token'] ) ? trim( $give_options['wepay_access_token'] ) : '';
-		$creds['account_id']    = isset( $give_options['wepay_account_id'] ) ? trim( $give_options['wepay_account_id'] ) : '';
+		if ( give_is_test_mode() ) {
+			$creds['client_id']     = ! empty( give_get_option( 'wepay_sandbox_client_id' ) ) ? trim( give_get_option( 'wepay_sandbox_client_id' ) ) : '';
+			$creds['client_secret'] = ! empty( give_get_option( 'wepay_sandbox_client_secret' ) ) ? trim( give_get_option( 'wepay_sandbox_client_secret' ) ) : '';
+			$creds['access_token']  = ! empty( give_get_option( 'wepay_sandbox_access_token' ) ) ? trim( give_get_option( 'wepay_sandbox_access_token' ) ) : '';
+			$creds['account_id']    = ! empty( give_get_option( 'wepay_sandbox_account_id' ) ) ? trim( give_get_option( 'wepay_sandbox_account_id' ) ) : '';
+		} else {
+			$creds['client_id']     = ! empty( give_get_option( 'wepay_client_id' ) ) ? trim( give_get_option( 'wepay_client_id' ) ) : '';
+			$creds['client_secret'] = ! empty( give_get_option( 'wepay_client_secret' ) ) ? trim( give_get_option( 'wepay_client_secret' ) ) : '';
+			$creds['access_token']  = ! empty( give_get_option( 'wepay_access_token' ) ) ? trim( give_get_option( 'wepay_access_token' ) ) : '';
+			$creds['account_id']    = ! empty( give_get_option( 'wepay_account_id' ) ) ? trim( give_get_option( 'wepay_account_id' ) ) : '';
+		}
+
 
 		return apply_filters( 'give_wepay_get_api_creds', $creds );
 
@@ -146,7 +153,7 @@ final class Give_WePay_Gateway {
 			give_record_gateway_error( __( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
 
 			//Display error for user.
-			give_set_error( 'wepay_error', __('An error occurred while processing your donation. Please try again.', 'give-wepay') );
+			give_set_error( 'wepay_error', __( 'An error occurred while processing your donation. Please try again.', 'give-wepay' ) );
 
 			//Send em' on back
 			give_send_back_to_checkout( '?payment-mode=wepay' );
