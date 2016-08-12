@@ -38,6 +38,9 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Changelog ==
 
+= 1.3 =
+* Fix: Remove reliance on a set API version. Newly created WePay apps will now work with the Add-on as expected.
+
 = 1.2 =
 * Fix: Bug where the "Fee Payer" would be inappropriately set to "Donor" when actually set to "Recipient"
 * Fix: Issue where duplicate admin notices displayed when preapproving payments

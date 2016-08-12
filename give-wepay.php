@@ -28,7 +28,7 @@ if ( ! defined( 'GIVE_WEPAY_URL' ) ) {
 
 // WePay API Version that Give uses.
 if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
-	define( 'GIVE_WEPAY_API_VERSION', apply_filters( 'give_braintree_api_version', '2016-08-10' ) );
+	define( 'GIVE_WEPAY_API_VERSION', apply_filters( 'give_wepay_api_version', '' ) );
 }
 
 /**
@@ -126,7 +126,6 @@ final class Give_WePay_Gateway {
 
 	}
 
-
 	/**
 	 * Get WePay API
 	 *
@@ -143,7 +142,15 @@ final class Give_WePay_Gateway {
 				WePay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 			}
 		} catch ( RuntimeException $e ) {
-			// already been setup
+			//Log with DB.
+			give_record_gateway_error( __( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
+
+			//Display error for user.
+			give_set_error( 'wepay_error', __('An error occurred while processing your donation. Please try again.', 'give-wepay') );
+
+			//Send em' on back
+			give_send_back_to_checkout( '?payment-mode=wepay' );
+
 		}
 
 		return new WePay( $creds['access_token'] );
@@ -165,7 +172,7 @@ final class Give_WePay_Gateway {
 		}
 
 		$gateways['wepay'] = array(
-			'admin_label'    => __( 'WePay', 'give_webpay' ),
+			'admin_label'    => __( 'WePay', 'give_wepay' ),
 			'checkout_label' => $checkout_label
 		);
 
@@ -218,8 +225,8 @@ final class Give_WePay_Gateway {
 		}
 
 		// Record the pending payment
-		$payment  = give_insert_payment( $payment_data );
-		$endpoint = isset( $give_options['wepay_preapprove_only'] ) ? 'preapproval' : 'checkout';
+		$payment_id = give_insert_payment( $payment_data );
+		$endpoint   = isset( $give_options['wepay_preapprove_only'] ) ? 'preapproval' : 'checkout';
 
 		$args = array(
 			'account_id'        => $creds['account_id'],
