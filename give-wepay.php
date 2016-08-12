@@ -659,14 +659,6 @@ final class Give_WePay_Gateway {
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'give' )
 		) );
-		register_post_status( 'cancelled', array(
-			'label'                     => _x( 'Cancelled', 'Cancelled payment', 'give' ),
-			'public'                    => true,
-			'exclude_from_search'       => false,
-			'show_in_admin_all_list'    => true,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'give' )
-		) );
 	}
 
 
