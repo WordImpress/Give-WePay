@@ -51,12 +51,12 @@ final class Give_WePay_Gateway {
 	 * time. Also prevents needing to define globals all over the place.
 	 *
 	 * @since     v1.0
-	 * @staticvar array $instance
+	 * @static var array $instance
 	 * @uses      Give_Recurring::setup_globals() Setup the globals needed
 	 * @uses      Give_Recurring::includes() Include the required files
 	 * @uses      Give_Recurring::setup_actions() Setup the hooks and actions
 	 * @see       Give()
-	 * @return The one true Give_Recurring
+	 * @return    Give_WePay_Gateway()
 	 */
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
@@ -101,7 +101,7 @@ final class Give_WePay_Gateway {
 	 */
 	function give_add_wepay_licensing() {
 		if ( class_exists( 'Give_License' ) ) {
-			$give_wepay_license = new Give_License( __FILE__, 'WePay Gateway', GIVE_WEPAY_VERSION, 'Devin Walker', 'wepay_license_key' );
+			new Give_License( __FILE__, 'WePay Gateway', GIVE_WEPAY_VERSION, 'Devin Walker', 'wepay_license_key' );
 		}
 	}
 
