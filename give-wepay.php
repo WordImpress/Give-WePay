@@ -10,21 +10,25 @@
  * GitHub Plugin URI: https://github.com/WordImpress/Give-WePay
  */
 
-define( 'GIVE_WEPAY_VERSION', '1.2' );
 
-// Plugin Folder Path
+//Plugin version.
+if ( ! defined( 'GIVE_WEPAY_VERSION' ) ) {
+	define( 'GIVE_WEPAY_VERSION', '1.2' );
+}
+
+// Plugin Folder Path.
 if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
 	define( 'GIVE_WEPAY_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-//Plugin Folder URL
+//Plugin Folder URL.
 if ( ! defined( 'GIVE_WEPAY_URL' ) ) {
 	define( 'GIVE_WEPAY_URL', plugin_dir_url( __FILE__ ) );
 }
 
-// WePay API Version that Give uses (muy importante)
+// WePay API Version that Give uses.
 if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
-	define( 'GIVE_WEPAY_API_VERSION', '2015-09-09' );
+	define( 'GIVE_WEPAY_API_VERSION', apply_filters( 'give_braintree_api_version', '2016-08-10' ) );
 }
 
 /**
@@ -38,9 +42,6 @@ final class Give_WePay_Gateway {
 	 * @var Give_WePay_Gateway The one true Give_WePay_Gateway
 	 */
 	private static $instance;
-	private $client_id;
-	private $client_secret;
-	private $access_token;
 	private $account_id;
 
 
@@ -137,9 +138,9 @@ final class Give_WePay_Gateway {
 
 		try {
 			if ( give_is_test_mode() ) {
-				Wepay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
+				WePay::useStaging( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 			} else {
-				Wepay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
+				WePay::useProduction( $creds['client_id'], $creds['client_secret'], GIVE_WEPAY_API_VERSION );
 			}
 		} catch ( RuntimeException $e ) {
 			// already been setup
@@ -536,7 +537,6 @@ final class Give_WePay_Gateway {
 	 * @return void
 	 */
 	public function process_preapproved_cancel() {
-		global $give_options;
 
 		if ( empty( $_GET['nonce'] ) ) {
 			return;
@@ -670,14 +670,13 @@ final class Give_WePay_Gateway {
 	 */
 	public function payment_status_labels( $statuses ) {
 		$statuses['preapproval'] = __( 'Preapproved', 'give_wepay' );
-		$statuses['cancelled']   = __( 'Cancelled', 'give_wepay' );
 
 		return $statuses;
 	}
 
 
 	/**
-	 * Display the Preapprove column label
+	 * Display the Preapproval column label
 	 *
 	 * @since 1.0
 	 * @return array
