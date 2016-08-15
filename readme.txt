@@ -39,7 +39,10 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 == Changelog ==
 
 = 1.3 =
+* New: A separate field set for staging credentials added to the settings panel
+* Tweak: Remove is_admin call around licensing integration
 * Fix: Remove reliance on a set API version. Newly created WePay apps will now work with the Add-on as expected.
+* Fix: Several typo fixes and text updates
 
 = 1.2 =
 * Fix: Bug where the "Fee Payer" would be inappropriately set to "Donor" when actually set to "Recipient"
