@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Give - WePay Gateway
- * Description: Process Give donations via the WePay Payment Gateway
+ * Description: Process online donations via the WePay payment gateway.
  * Author: WordImpress
  * Author URI: https://wordimpress.com
  * Text Domain: give-wepay
