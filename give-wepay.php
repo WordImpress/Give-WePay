@@ -6,14 +6,14 @@
  * Author URI: https://wordimpress.com
  * Text Domain: give-wepay
  * Domain Path: languages
- * Version: 1.2
+ * Version: 1.3
  * GitHub Plugin URI: https://github.com/WordImpress/Give-WePay
  */
 
 
 //Plugin version.
 if ( ! defined( 'GIVE_WEPAY_VERSION' ) ) {
-	define( 'GIVE_WEPAY_VERSION', '1.2' );
+	define( 'GIVE_WEPAY_VERSION', '1.3' );
 }
 
 // Plugin Folder Path.
@@ -819,7 +819,7 @@ final class Give_WePay_Gateway {
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $recurring = Give_WePay_Gateway(); ?>
+ * Example: <?php $wepay = Give_WePay_Gateway(); ?>
  *
  * @since v1.0
  *

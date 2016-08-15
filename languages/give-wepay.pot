@@ -92,101 +92,133 @@ msgid "WePay Settings"
 msgstr ""
 
 #: includes/admin/settings.php:30
-msgid "Client ID"
+msgid "Live Client ID"
 msgstr ""
 
 #: includes/admin/settings.php:31
-msgid "Enter your WePay client ID"
+msgid "Enter your live WePay client ID. <a href=\"%s\" target=\"_blank\">Find out how to obtain your API credentials &raquo;</a>"
 msgstr ""
 
 #: includes/admin/settings.php:36
-msgid "Client Secret"
+msgid "Live Client Secret"
 msgstr ""
 
 #: includes/admin/settings.php:37
-msgid "Enter your Client Secret"
+msgid "Enter your live WePay client secret"
 msgstr ""
 
 #: includes/admin/settings.php:42
-msgid "Access Token"
+msgid "Live Access Token"
 msgstr ""
 
 #: includes/admin/settings.php:43
-msgid "Enter your Access Token"
+msgid "Enter your live WePay access token"
 msgstr ""
 
 #: includes/admin/settings.php:48
-msgid "Account ID"
+msgid "Live Account ID"
 msgstr ""
 
 #: includes/admin/settings.php:49
-msgid "Enter your Account ID"
+msgid "Enter your live WePay account ID"
 msgstr ""
 
 #: includes/admin/settings.php:54
-msgid "Preapprove Payments?"
+msgid "Stage Client ID"
 msgstr ""
 
 #: includes/admin/settings.php:55
-msgid "Check this if you would like to preapprove payments but not charge until a later date."
+msgid "Enter your stage account WePay client ID"
 msgstr ""
 
 #: includes/admin/settings.php:60
-msgid "Payment Type"
+msgid "Stage Client Secret"
 msgstr ""
 
 #: includes/admin/settings.php:61
-msgid "Select the type of payment you would like to process."
-msgstr ""
-
-#: includes/admin/settings.php:65
-msgid "Goods"
+msgid "Enter your stage account WePay client secret"
 msgstr ""
 
 #: includes/admin/settings.php:66
-msgid "Service"
+msgid "Stage Access Token"
 msgstr ""
 
 #: includes/admin/settings.php:67
-msgid "Donation"
+msgid "Enter your stage account WePay access token"
 msgstr ""
 
-#: includes/admin/settings.php:68
-msgid "Event"
+#: includes/admin/settings.php:72
+msgid "Stage Account ID"
 msgstr ""
 
-#: includes/admin/settings.php:69
-msgid "Personal"
+#: includes/admin/settings.php:73
+msgid "Enter your stage account WePay account ID"
 msgstr ""
 
-#: includes/admin/settings.php:75
-msgid "Fee Payer"
-msgstr ""
-
-#: includes/admin/settings.php:76
-msgid "How would you like to collect the WePay gateway fee?"
+#: includes/admin/settings.php:78
+msgid "Preapprove Payments?"
 msgstr ""
 
 #: includes/admin/settings.php:79
-msgid "Recipient"
+msgid "Check this if you would like to preapprove payments but not charge until a later date."
 msgstr ""
 
-#: includes/admin/settings.php:80
-msgid "Donor"
+#: includes/admin/settings.php:84
+msgid "Payment Type"
 msgstr ""
 
-#: includes/admin/settings.php:86
-msgid "On Site Payments"
+#: includes/admin/settings.php:85
+msgid "Select the type of payment you would like to process."
 msgstr ""
 
-#: includes/admin/settings.php:87
-msgid "Process credit cards on-site or send customers to WePay's terminal? Note: On-site payments require SSL."
+#: includes/admin/settings.php:89
+msgid "Goods"
 msgstr ""
 
 #: includes/admin/settings.php:90
-msgid "On-Site"
+msgid "Service"
 msgstr ""
 
 #: includes/admin/settings.php:91
+msgid "Donation"
+msgstr ""
+
+#: includes/admin/settings.php:92
+msgid "Event"
+msgstr ""
+
+#: includes/admin/settings.php:93
+msgid "Personal"
+msgstr ""
+
+#: includes/admin/settings.php:99
+msgid "Fee Payer"
+msgstr ""
+
+#: includes/admin/settings.php:100
+msgid "How would you like to collect the WePay gateway fee?"
+msgstr ""
+
+#: includes/admin/settings.php:103
+msgid "Recipient"
+msgstr ""
+
+#: includes/admin/settings.php:104
+msgid "Donor"
+msgstr ""
+
+#: includes/admin/settings.php:110
+msgid "On Site Payments"
+msgstr ""
+
+#: includes/admin/settings.php:111
+msgid "Process credit cards on-site or send customers to WePay's terminal? Note: On-site payments require SSL."
+msgstr ""
+
+#: includes/admin/settings.php:114
+msgid "On-Site"
+msgstr ""
+
+#: includes/admin/settings.php:115
 msgid "Off-Site"
 msgstr ""
