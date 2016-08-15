@@ -3,7 +3,7 @@ Contributors: wordimpress
 Tags: donations, donation, ecommerce, e-commerce, fundraising, fundraiser, wepay, we pay, gateway
 Requires at least: 4.0
 Tested up to: 4.6
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
