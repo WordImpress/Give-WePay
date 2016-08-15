@@ -46,17 +46,10 @@ final class Give_WePay_Gateway {
 
 
 	/**
-	 * Main Give_Recurring Instance
-	 *
-	 * Insures that only one instance of Give_Recurring exists in memory at any one
-	 * time. Also prevents needing to define globals all over the place.
+	 * Main WePay Instance
 	 *
 	 * @since     v1.0
 	 * @static var array $instance
-	 * @uses      Give_Recurring::setup_globals() Setup the globals needed
-	 * @uses      Give_Recurring::includes() Include the required files
-	 * @uses      Give_Recurring::setup_actions() Setup the hooks and actions
-	 * @see       Give()
 	 * @return    Give_WePay_Gateway()
 	 */
 	public static function instance() {
