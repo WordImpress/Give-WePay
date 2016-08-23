@@ -3,7 +3,7 @@ Contributors: wordimpress
 Tags: donations, donation, ecommerce, e-commerce, fundraising, fundraiser, wepay, we pay, gateway
 Requires at least: 4.0
 Tested up to: 4.6
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -37,6 +37,10 @@ The manual installation method involves downloading our donation plugin and uplo
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
 == Changelog ==
+
+= 1.3.1 =
+* Fix: PHP compatibility bug with PHP 5.3
+* Fix: Support for the WePay's new "released" checkout status
 
 = 1.3 =
 * New: A separate field set for staging credentials added to the settings panel

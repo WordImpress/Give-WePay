@@ -6,14 +6,14 @@
  * Author URI: https://wordimpress.com
  * Text Domain: give-wepay
  * Domain Path: languages
- * Version: 1.3
+ * Version: 1.3.1
  * GitHub Plugin URI: https://github.com/WordImpress/Give-WePay
  */
 
 
 //Plugin version.
 if ( ! defined( 'GIVE_WEPAY_VERSION' ) ) {
-	define( 'GIVE_WEPAY_VERSION', '1.3' );
+	define( 'GIVE_WEPAY_VERSION', '1.3.1' );
 }
 
 // Plugin Folder Path.
