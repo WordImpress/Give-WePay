@@ -109,18 +109,21 @@ final class Give_WePay_Gateway {
 
 		$creds = array();
 
+		$sandbox = '';
+
 		if ( give_is_test_mode() ) {
-			$creds['client_id']     = ! empty( give_get_option( 'wepay_sandbox_client_id' ) ) ? trim( give_get_option( 'wepay_sandbox_client_id' ) ) : '';
-			$creds['client_secret'] = ! empty( give_get_option( 'wepay_sandbox_client_secret' ) ) ? trim( give_get_option( 'wepay_sandbox_client_secret' ) ) : '';
-			$creds['access_token']  = ! empty( give_get_option( 'wepay_sandbox_access_token' ) ) ? trim( give_get_option( 'wepay_sandbox_access_token' ) ) : '';
-			$creds['account_id']    = ! empty( give_get_option( 'wepay_sandbox_account_id' ) ) ? trim( give_get_option( 'wepay_sandbox_account_id' ) ) : '';
-		} else {
-			$creds['client_id']     = ! empty( give_get_option( 'wepay_client_id' ) ) ? trim( give_get_option( 'wepay_client_id' ) ) : '';
-			$creds['client_secret'] = ! empty( give_get_option( 'wepay_client_secret' ) ) ? trim( give_get_option( 'wepay_client_secret' ) ) : '';
-			$creds['access_token']  = ! empty( give_get_option( 'wepay_access_token' ) ) ? trim( give_get_option( 'wepay_access_token' ) ) : '';
-			$creds['account_id']    = ! empty( give_get_option( 'wepay_account_id' ) ) ? trim( give_get_option( 'wepay_account_id' ) ) : '';
+			$sandbox = 'sandbox_';
 		}
 
+		$client_id     = give_get_option( "wepay_{$sandbox}client_id" );
+		$client_secret = give_get_option( "wepay_{$sandbox}client_secret" );
+		$access_token = give_get_option( "wepay_{$sandbox}access_token" );
+		$account_id = give_get_option( "wepay_{$sandbox}account_id" );
+
+		$creds['client_id']     = ! empty( $client_id ) ? trim( $client_id ) : '';
+		$creds['client_secret'] = ! empty( $client_secret ) ? trim( $client_secret ) : '';
+		$creds['access_token']  = ! empty( $access_token ) ? trim( $access_token ) : '';
+		$creds['account_id']    = ! empty( $account_id ) ? trim( $account_id ) : '';
 
 		return apply_filters( 'give_wepay_get_api_creds', $creds );
 
