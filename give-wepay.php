@@ -117,8 +117,8 @@ final class Give_WePay_Gateway {
 
 		$client_id     = give_get_option( "wepay_{$sandbox}client_id" );
 		$client_secret = give_get_option( "wepay_{$sandbox}client_secret" );
-		$access_token = give_get_option( "wepay_{$sandbox}access_token" );
-		$account_id = give_get_option( "wepay_{$sandbox}account_id" );
+		$access_token  = give_get_option( "wepay_{$sandbox}access_token" );
+		$account_id    = give_get_option( "wepay_{$sandbox}account_id" );
 
 		$creds['client_id']     = ! empty( $client_id ) ? trim( $client_id ) : '';
 		$creds['client_secret'] = ! empty( $client_secret ) ? trim( $client_secret ) : '';
@@ -424,7 +424,7 @@ final class Give_WePay_Gateway {
 					wp_die( __( 'The store ID does not match those set in the site settings.', 'give-wepay' ), __( 'Error', 'give-wepay' ) );
 				}
 
-				if ( $response->state != 'captured' && $response->state != 'authorized' ) {
+				if ( $response->state != 'captured' && $response->state != 'authorized' && $response->state != 'released' ) {
 					wp_die( __( 'Your payment is still processing. Please refresh the page to see your donation receipt.', 'give-wepay' ), __( 'Error', 'give-wepay' ) );
 				}
 
