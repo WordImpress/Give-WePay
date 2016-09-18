@@ -191,7 +191,7 @@ final class Give_WePay_Gateway {
 	 */
 	public function process_wepay_payment( $purchase_data ) {
 
-		global $give_options;
+		$give_options = give_get_settings();
 
 		if ( ! class_exists( 'WePay' ) ) {
 			require dirname( __FILE__ ) . '/vendor/wepay.php';
@@ -361,7 +361,7 @@ final class Give_WePay_Gateway {
 	 */
 	public function confirm_payment() {
 
-		global $give_options;
+		$give_options = give_get_settings();
 
 		//Checks
 		if ( empty( $_GET['payment-confirmation'] ) ) {
@@ -601,7 +601,7 @@ final class Give_WePay_Gateway {
 	 */
 	function charge_preapproved( $payment_id = 0 ) {
 
-		global $give_options;
+		$give_options = give_get_settings();
 
 		if ( empty( $payment_id ) ) {
 			return false;
@@ -693,7 +693,7 @@ final class Give_WePay_Gateway {
 	 */
 	public function payments_column( $columns ) {
 
-		global $give_options;
+		$give_options = give_get_settings();
 
 		if ( isset( $give_options['wepay_preapprove_only'] ) && $give_options['wepay_preapprove_only'] == 'on' ) {
 			$columns['preapproval'] = esc_html__( 'Preapproval', 'give-wepay' );
@@ -771,7 +771,7 @@ final class Give_WePay_Gateway {
 	 */
 
 	private function payment_type() {
-		global $give_options;
+		$give_options = give_get_settings();
 		$type = isset( $give_options['wepay_payment_type'] ) ? $give_options['wepay_payment_type'] : 'GOODS';
 
 		return strtolower( $type );
@@ -789,7 +789,7 @@ final class Give_WePay_Gateway {
 	 */
 	private function fee_payer() {
 
-		global $give_options;
+		$give_options = give_get_settings();
 
 		//Payer or Payee (lowercase)
 		$payer = isset( $give_options['wepay_fee_payer'] ) ? $give_options['wepay_fee_payer'] : 'Payee';
