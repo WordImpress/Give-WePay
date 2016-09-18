@@ -662,7 +662,7 @@ final class Give_WePay_Gateway {
 	 */
 	public function register_post_statuses() {
 		register_post_status( 'preapproval', array(
-			'label'                     => _x( 'Preapproved', 'Preapproved payment', 'give-wepay' ),
+			'label'                     => esc_html__( 'Preapproved', 'give-wepay' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
