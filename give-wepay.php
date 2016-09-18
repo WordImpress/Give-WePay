@@ -317,7 +317,7 @@ final class Give_WePay_Gateway {
 
 				if ( ! empty( $response->error ) ) {
 					// if errors are present, send the user back to the purchase page so they can be corrected
-					give_set_error( $response->error, $response->error_description . '. Error code: ' . $response->error_code );
+					give_set_error( $response->error, sprintf( __( '%1$s. Error code: %2$s', 'give-wepay' ), $response->error_description, $response->error_code ) );
 					//Log with DB.
 					give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error occurred while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $response->error, $response->error_description ) );
 					give_send_back_to_checkout( '?payment-mode=wepay' );
@@ -639,12 +639,12 @@ final class Give_WePay_Gateway {
 
 				) );
 
-				give_insert_payment_note( $payment_id, 'WePay Checkout ID: ' . $charge->checkout_id );
+				give_insert_payment_note( $payment_id, sprintf( esc_html__( 'WePay Checkout ID: %s', 'give-wepay' ), $charge->checkout_id ) );
 				give_update_payment_status( $payment_id, 'publish' );
 
 				return true;
 			} catch ( WePayException $e ) {
-				give_insert_payment_note( $payment_id, 'WePay Checkout Error: ' . $e->getMessage() );
+				give_insert_payment_note( $payment_id, sprintf( esc_html__( 'WePay Checkout Error: %s', 'give-wepay' ), $e->getMessage() ) );
 
 				do_action( 'give_wepay_charge_failed', $e );
 
