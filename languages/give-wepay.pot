@@ -20,7 +20,7 @@ msgid "WePay Error"
 msgstr ""
 
 #: give-wepay.php:297, give-wepay.php:643, give-wepay.php:707
-msgid "An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s"
+msgid "An error occurred while processing a donation.<br> Details: %1$s <br><br>Code: %2$s"
 msgstr ""
 
 #: give-wepay.php:303
@@ -39,6 +39,10 @@ msgstr ""
 msgid "WePay"
 msgstr ""
 
+#: give-wepay.php:639
+msgid "%1$s. Error code: %2$s"
+msgstr ""
+
 #: give-wepay.php:793, give-wepay.php:847
 msgid "The store ID does not match those set in the site settings."
 msgstr ""
@@ -49,6 +53,14 @@ msgstr ""
 
 #: give-wepay.php:801, give-wepay.php:855
 msgid "Your payment is still processing. Please refresh the page to see your donation receipt."
+msgstr ""
+
+#: give-wepay.php:817
+msgid "WePay Preapproval ID: %s"
+msgstr ""
+
+#: give-wepay.php:865, give-wepay.php:1283
+msgid "WePay Checkout ID: %s"
 msgstr ""
 
 #: give-wepay.php:1003
@@ -71,12 +83,30 @@ msgstr ""
 msgid "Charge of preapproved payment %s"
 msgstr ""
 
-#: give-wepay.php:1363
+#: give-wepay.php:1293
+msgid "WePay Checkout Error: %s"
+msgstr ""
+
+#: give-wepay.php:1329, give-wepay.php:1363
 msgid "Preapproved"
 msgstr ""
 
+#: give-wepay.php:1339
+msgid "Active <span class=\"count\">(%s)</span>"
+msgid_plural "Active <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
 #: give-wepay.php:1397
 msgid "Preapproval"
+msgstr ""
+
+#: give-wepay.php:1433
+msgid "Preapproval Pending"
+msgstr ""
+
+#: give-wepay.php:1435
+msgid "Cancelled"
 msgstr ""
 
 #: give-wepay.php:1511
@@ -96,7 +126,7 @@ msgid "Live Client ID"
 msgstr ""
 
 #: includes/admin/settings.php:61
-msgid "Enter your live WePay client ID. <a href=\"%s\" target=\"_blank\">Find out how to obtain your API credentials &raquo;</a>"
+msgid "Enter your live WePay client ID. <a href=\"%s\" target=\"_blank\">Find out how to obtain your API credentials</a>."
 msgstr ""
 
 #: includes/admin/settings.php:71
@@ -104,7 +134,7 @@ msgid "Live Client Secret"
 msgstr ""
 
 #: includes/admin/settings.php:73
-msgid "Enter your live WePay client secret"
+msgid "Enter your live WePay client secret."
 msgstr ""
 
 #: includes/admin/settings.php:83
@@ -112,7 +142,7 @@ msgid "Live Access Token"
 msgstr ""
 
 #: includes/admin/settings.php:85
-msgid "Enter your live WePay access token"
+msgid "Enter your live WePay access token."
 msgstr ""
 
 #: includes/admin/settings.php:95
@@ -120,7 +150,7 @@ msgid "Live Account ID"
 msgstr ""
 
 #: includes/admin/settings.php:97
-msgid "Enter your live WePay account ID"
+msgid "Enter your live WePay account ID."
 msgstr ""
 
 #: includes/admin/settings.php:107
@@ -128,7 +158,7 @@ msgid "Stage Client ID"
 msgstr ""
 
 #: includes/admin/settings.php:109
-msgid "Enter your stage account WePay client ID"
+msgid "Enter your stage account WePay client ID."
 msgstr ""
 
 #: includes/admin/settings.php:119
@@ -136,7 +166,7 @@ msgid "Stage Client Secret"
 msgstr ""
 
 #: includes/admin/settings.php:121
-msgid "Enter your stage account WePay client secret"
+msgid "Enter your stage account WePay client secret."
 msgstr ""
 
 #: includes/admin/settings.php:131
@@ -144,7 +174,7 @@ msgid "Stage Access Token"
 msgstr ""
 
 #: includes/admin/settings.php:133
-msgid "Enter your stage account WePay access token"
+msgid "Enter your stage account WePay access token."
 msgstr ""
 
 #: includes/admin/settings.php:143
@@ -152,7 +182,7 @@ msgid "Stage Account ID"
 msgstr ""
 
 #: includes/admin/settings.php:145
-msgid "Enter your stage account WePay account ID"
+msgid "Enter your stage account WePay account ID."
 msgstr ""
 
 #: includes/admin/settings.php:155
