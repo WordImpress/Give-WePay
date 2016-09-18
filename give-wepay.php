@@ -146,7 +146,7 @@ final class Give_WePay_Gateway {
 			}
 		} catch ( RuntimeException $e ) {
 			//Log with DB.
-			give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
+			give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error occurred while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
 
 			//Display error for user.
 			give_set_error( 'wepay_error', esc_html__( 'An error occurred while processing your donation. Please try again.', 'give-wepay' ) );
@@ -319,7 +319,7 @@ final class Give_WePay_Gateway {
 					// if errors are present, send the user back to the purchase page so they can be corrected
 					give_set_error( $response->error, $response->error_description . '. Error code: ' . $response->error_code );
 					//Log with DB.
-					give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $response->error, $response->error_description ) );
+					give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error occurred while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $response->error, $response->error_description ) );
 					give_send_back_to_checkout( '?payment-mode=wepay' );
 
 				}
@@ -351,7 +351,7 @@ final class Give_WePay_Gateway {
 			}
 		} catch ( WePayException $e ) {
 			give_set_error( 'give_wepay_exception', $e->getMessage() );
-			give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
+			give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error occurred while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
 			give_send_back_to_checkout( '?payment-mode=wepay' );
 		}
 	}
