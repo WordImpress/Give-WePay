@@ -146,10 +146,10 @@ final class Give_WePay_Gateway {
 			}
 		} catch ( RuntimeException $e ) {
 			//Log with DB.
-			give_record_gateway_error( __( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
+			give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
 
 			//Display error for user.
-			give_set_error( 'wepay_error', __( 'An error occurred while processing your donation. Please try again.', 'give-wepay' ) );
+			give_set_error( 'wepay_error', esc_html__( 'An error occurred while processing your donation. Please try again.', 'give-wepay' ) );
 
 			//Send em' on back
 			give_send_back_to_checkout( '?payment-mode=wepay' );
@@ -169,13 +169,13 @@ final class Give_WePay_Gateway {
 	public function register_gateway( $gateways ) {
 
 		if ( $this->onsite_payments() ) {
-			$checkout_label = __( 'Credit Card', 'give-wepay' );
+			$checkout_label = esc_html__( 'Credit Card', 'give-wepay' );
 		} else {
-			$checkout_label = __( 'Credit Card or Bank Account', 'give-wepay' );
+			$checkout_label = esc_html__( 'Credit Card or Bank Account', 'give-wepay' );
 		}
 
 		$gateways['wepay'] = array(
-			'admin_label'    => __( 'WePay', 'give-wepay' ),
+			'admin_label'    => esc_html__( 'WePay', 'give-wepay' ),
 			'checkout_label' => $checkout_label
 		);
 
@@ -319,7 +319,7 @@ final class Give_WePay_Gateway {
 					// if errors are present, send the user back to the purchase page so they can be corrected
 					give_set_error( $response->error, $response->error_description . '. Error code: ' . $response->error_code );
 					//Log with DB.
-					give_record_gateway_error( __( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $response->error, $response->error_description ) );
+					give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $response->error, $response->error_description ) );
 					give_send_back_to_checkout( '?payment-mode=wepay' );
 
 				}
@@ -351,7 +351,7 @@ final class Give_WePay_Gateway {
 			}
 		} catch ( WePayException $e ) {
 			give_set_error( 'give_wepay_exception', $e->getMessage() );
-			give_record_gateway_error( __( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
+			give_record_gateway_error( esc_html__( 'WePay Error', 'give-wepay' ), sprintf( __( 'An error happened while processing a donation.<br> Details: %1$s <br><br>Code: %2$s', 'give-wepay' ), $e->getMessage(), $e->getCode() ) );
 			give_send_back_to_checkout( '?payment-mode=wepay' );
 		}
 	}
@@ -394,11 +394,11 @@ final class Give_WePay_Gateway {
 				) );
 
 				if ( $response->account_id != $creds['account_id'] ) {
-					wp_die( __( 'The store ID does not match those set in the site settings.', 'give-wepay' ), __( 'Error', 'give-wepay' ) );
+					wp_die( esc_html__( 'The store ID does not match those set in the site settings.', 'give-wepay' ), esc_html__( 'Error', 'give-wepay' ) );
 				}
 
 				if ( $response->state != 'captured' && $response->state != 'approved' ) {
-					wp_die( __( 'Your payment is still processing. Please refresh the page to see your donation receipt.', 'give-wepay' ), __( 'Error', 'give-wepay' ) );
+					wp_die( esc_html__( 'Your payment is still processing. Please refresh the page to see your donation receipt.', 'give-wepay' ), esc_html__( 'Error', 'give-wepay' ) );
 				}
 
 				$payment_id = give_get_purchase_id_by_key( $response->reference_id );
@@ -406,7 +406,7 @@ final class Give_WePay_Gateway {
 				//Ensure this payment hasn't been completed already (so it doesn't go from completed back to preapproval)
 				$payment_status = give_check_for_existing_payment( $payment_id );
 				if ( $payment_status === false ) {
-					give_insert_payment_note( $payment_id, sprintf( __( 'WePay Preapproval ID: %s', 'give-wepay' ), $response->preapproval_id ) );
+					give_insert_payment_note( $payment_id, sprintf( esc_html__( 'WePay Preapproval ID: %s', 'give-wepay' ), $response->preapproval_id ) );
 					give_update_payment_status( $payment_id, 'preapproval' );
 				}
 
@@ -421,16 +421,16 @@ final class Give_WePay_Gateway {
 				) );
 
 				if ( $response->account_id != $creds['account_id'] ) {
-					wp_die( __( 'The store ID does not match those set in the site settings.', 'give-wepay' ), __( 'Error', 'give-wepay' ) );
+					wp_die( esc_html__( 'The store ID does not match those set in the site settings.', 'give-wepay' ), esc_html__( 'Error', 'give-wepay' ) );
 				}
 
 				if ( $response->state != 'captured' && $response->state != 'authorized' && $response->state != 'released' ) {
-					wp_die( __( 'Your payment is still processing. Please refresh the page to see your donation receipt.', 'give-wepay' ), __( 'Error', 'give-wepay' ) );
+					wp_die( esc_html__( 'Your payment is still processing. Please refresh the page to see your donation receipt.', 'give-wepay' ), esc_html__( 'Error', 'give-wepay' ) );
 				}
 
 				$payment_id = give_get_purchase_id_by_key( $response->reference_id );
 
-				give_insert_payment_note( $payment_id, sprintf( __( 'WePay Checkout ID: %s', 'give-wepay' ), $response->checkout_id ) );
+				give_insert_payment_note( $payment_id, sprintf( esc_html__( 'WePay Checkout ID: %s', 'give-wepay' ), $response->checkout_id ) );
 				give_update_payment_status( $payment_id, 'publish' );
 			}
 
@@ -499,13 +499,13 @@ final class Give_WePay_Gateway {
 	public function admin_messages() {
 
 		if ( isset( $_GET['give-message'] ) && 'preapproval-charged' == $_GET['give-message'] ) {
-			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-charged', __( 'The preapproved payment was successfully charged.', 'give-wepay' ), 'updated' );
+			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-charged', esc_html__( 'The preapproved payment was successfully charged.', 'give-wepay' ), 'updated' );
 		}
 		if ( isset( $_GET['give-message'] ) && 'preapproval-failed' == $_GET['give-message'] ) {
-			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-charged', __( 'The preapproved payment failed to be charged.', 'give-wepay' ), 'error' );
+			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-charged', esc_html__( 'The preapproved payment failed to be charged.', 'give-wepay' ), 'error' );
 		}
 		if ( isset( $_GET['give-message'] ) && 'preapproval-cancelled' == $_GET['give-message'] ) {
-			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-cancelled', __( 'The preapproved payment was successfully cancelled.', 'give-wepay' ), 'updated' );
+			add_settings_error( 'give-wepay-notices', 'give-wepay-preapproval-cancelled', esc_html__( 'The preapproved payment was successfully cancelled.', 'give-wepay' ), 'updated' );
 		}
 
 	}
@@ -584,7 +584,7 @@ final class Give_WePay_Gateway {
 				'preapproval_id' => $preapproval->preapproval_id
 			) );
 
-			give_insert_payment_note( $payment_id, __( 'Preapproval cancelled', 'give-wepay' ) );
+			give_insert_payment_note( $payment_id, esc_html__( 'Preapproval cancelled', 'give-wepay' ) );
 			give_update_payment_status( $payment_id, 'cancelled' );
 
 		}
@@ -623,7 +623,7 @@ final class Give_WePay_Gateway {
 			try {
 				$charge = $wepay->request( 'checkout/create', array(
 					'amount'            => give_get_payment_amount( $payment_id ),
-					'short_description' => sprintf( __( 'Charge of preapproved payment %s', 'give-wepay' ), give_get_payment_key( $payment_id ) ),
+					'short_description' => sprintf( esc_html__( 'Charge of preapproved payment %s', 'give-wepay' ), give_get_payment_key( $payment_id ) ),
 					'account_id'        => $creds['account_id'],
 					'type'              => $this->payment_type(),
 					'currency'          => give_get_currency(),
@@ -679,7 +679,7 @@ final class Give_WePay_Gateway {
 	 * @return array
 	 */
 	public function payment_status_labels( $statuses ) {
-		$statuses['preapproval'] = __( 'Preapproved', 'give-wepay' );
+		$statuses['preapproval'] = esc_html__( 'Preapproved', 'give-wepay' );
 
 		return $statuses;
 	}
@@ -696,7 +696,7 @@ final class Give_WePay_Gateway {
 		global $give_options;
 
 		if ( isset( $give_options['wepay_preapprove_only'] ) && $give_options['wepay_preapprove_only'] == 'on' ) {
-			$columns['preapproval'] = __( 'Preapproval', 'give-wepay' );
+			$columns['preapproval'] = esc_html__( 'Preapproval', 'give-wepay' );
 		}
 
 		return $columns;
@@ -714,8 +714,8 @@ final class Give_WePay_Gateway {
 		$preapproval_count    = '&nbsp;<span class="count">(' . $payment_count->preapproval . ')</span>';
 		$cancelled_count      = '&nbsp;<span class="count">(' . $payment_count->cancelled . ')</span>';
 		$current              = isset( $_GET['status'] ) ? $_GET['status'] : '';
-		$views['preapproval'] = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'preapproval', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'preapproval' ? ' class="current"' : '', __( 'Preapproval Pending', 'give-wepay' ) . $preapproval_count );
-		$views['cancelled']   = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'cancelled', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'give-wepay' ) . $cancelled_count );
+		$views['preapproval'] = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'preapproval', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'preapproval' ? ' class="current"' : '', esc_html__( 'Preapproval Pending', 'give-wepay' ) . $preapproval_count );
+		$views['cancelled']   = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'cancelled', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'cancelled' ? ' class="current"' : '', esc_html__( 'Cancelled', 'give-wepay' ) . $cancelled_count );
 
 		return $views;
 	}
@@ -753,8 +753,8 @@ final class Give_WePay_Gateway {
 			);
 
 			if ( 'preapproval' === $status ) {
-				$value = '<a href="' . add_query_arg( $preapproval_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small" style="width: 120px; margin: 0 0 3px; text-align:center;">' . __( 'Process Payment', 'give-wepay' ) . '</a>&nbsp;';
-				$value .= '<a href="' . add_query_arg( $cancel_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small" style="width: 120px; margin: 0; text-align:center;">' . __( 'Cancel Preapproval', 'give-wepay' ) . '</a>';
+				$value = '<a href="' . add_query_arg( $preapproval_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small" style="width: 120px; margin: 0 0 3px; text-align:center;">' . esc_html__( 'Process Payment', 'give-wepay' ) . '</a>&nbsp;';
+				$value .= '<a href="' . add_query_arg( $cancel_args, admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ) . '" class="button-secondary button button-small" style="width: 120px; margin: 0; text-align:center;">' . esc_html__( 'Cancel Preapproval', 'give-wepay' ) . '</a>';
 			}
 		}
 
