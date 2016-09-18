@@ -27,12 +27,11 @@ gulp.task('pot', function () {
         .pipe(gulp.dest('languages'));
 });
 
-
 /* Text-domain task
  ------------------------------------- */
 gulp.task('textdomain', function () {
     var options = {
-        text_domain: 'give-paypal-pro',
+        text_domain: 'give-wepay',
         keywords: [
             '__:1,2d',
             '_e:1,2d',

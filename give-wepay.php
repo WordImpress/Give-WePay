@@ -406,7 +406,7 @@ final class Give_WePay_Gateway {
 				//Ensure this payment hasn't been completed already (so it doesn't go from completed back to preapproval)
 				$payment_status = give_check_for_existing_payment( $payment_id );
 				if ( $payment_status === false ) {
-					give_insert_payment_note( $payment_id, sprintf( __( 'WePay Preapproval ID: %s', 'give' ), $response->preapproval_id ) );
+					give_insert_payment_note( $payment_id, sprintf( __( 'WePay Preapproval ID: %s', 'give-wepay' ), $response->preapproval_id ) );
 					give_update_payment_status( $payment_id, 'preapproval' );
 				}
 
@@ -430,7 +430,7 @@ final class Give_WePay_Gateway {
 
 				$payment_id = give_get_purchase_id_by_key( $response->reference_id );
 
-				give_insert_payment_note( $payment_id, sprintf( __( 'WePay Checkout ID: %s', 'give' ), $response->checkout_id ) );
+				give_insert_payment_note( $payment_id, sprintf( __( 'WePay Checkout ID: %s', 'give-wepay' ), $response->checkout_id ) );
 				give_update_payment_status( $payment_id, 'publish' );
 			}
 
@@ -662,12 +662,12 @@ final class Give_WePay_Gateway {
 	 */
 	public function register_post_statuses() {
 		register_post_status( 'preapproval', array(
-			'label'                     => _x( 'Preapproved', 'Preapproved payment', 'give' ),
+			'label'                     => _x( 'Preapproved', 'Preapproved payment', 'give-wepay' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'give' )
+			'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'give-wepay' )
 		) );
 	}
 
@@ -714,8 +714,8 @@ final class Give_WePay_Gateway {
 		$preapproval_count    = '&nbsp;<span class="count">(' . $payment_count->preapproval . ')</span>';
 		$cancelled_count      = '&nbsp;<span class="count">(' . $payment_count->cancelled . ')</span>';
 		$current              = isset( $_GET['status'] ) ? $_GET['status'] : '';
-		$views['preapproval'] = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'preapproval', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'preapproval' ? ' class="current"' : '', __( 'Preapproval Pending', 'give' ) . $preapproval_count );
-		$views['cancelled']   = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'cancelled', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'give' ) . $cancelled_count );
+		$views['preapproval'] = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'preapproval', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'preapproval' ? ' class="current"' : '', __( 'Preapproval Pending', 'give-wepay' ) . $preapproval_count );
+		$views['cancelled']   = sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'cancelled', admin_url( 'edit.php?post_type=give_forms&page=give-payment-history' ) ), $current === 'cancelled' ? ' class="current"' : '', __( 'Cancelled', 'give-wepay' ) . $cancelled_count );
 
 		return $views;
 	}
