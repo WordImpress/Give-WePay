@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Give - WePay Gateway
+ * Plugin URL:  https://givewp.com/addons/wepay-gateway/
  * Description: Process online donations via the WePay payment gateway.
- * Author: WordImpress
- * Author URI: https://wordimpress.com
+ * Version:     1.3.1
+ * Author:      WordImpress
+ * Author URI:  https://wordimpress.com
  * Text Domain: give-wepay
- * Domain Path: languages
- * Version: 1.3.1
- * GitHub Plugin URI: https://github.com/WordImpress/Give-WePay
+ * Domain Path: /languages
  */
 
 
