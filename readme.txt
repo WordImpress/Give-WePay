@@ -1,5 +1,5 @@
 === Give - WePay Gateway ===
-Contributors: wordimpress
+Contributors: wordimpress, dlocc, ramiy
 Tags: donations, donation, ecommerce, e-commerce, fundraising, fundraiser, wepay, we pay, gateway
 Requires at least: 4.0
 Tested up to: 4.6
