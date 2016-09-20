@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Give - WePay Gateway
- * Plugin URL:  https://givewp.com/addons/wepay-gateway/
+ * Plugin URI:  https://givewp.com/addons/wepay-gateway/
  * Description: Process online donations via the WePay payment gateway.
  * Version:     1.3.1
  * Author:      WordImpress
