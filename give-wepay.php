@@ -11,24 +11,21 @@
  */
 
 
-//Plugin version.
+//Plugin constants
 if ( ! defined( 'GIVE_WEPAY_VERSION' ) ) {
 	define( 'GIVE_WEPAY_VERSION', '1.3.1' );
 }
-
-// Plugin Folder Path.
 if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
 	define( 'GIVE_WEPAY_DIR', plugin_dir_path( __FILE__ ) );
 }
-
-//Plugin Folder URL.
 if ( ! defined( 'GIVE_WEPAY_URL' ) ) {
 	define( 'GIVE_WEPAY_URL', plugin_dir_url( __FILE__ ) );
 }
-
-// WePay API Version that Give uses.
 if ( ! defined( 'GIVE_WEPAY_API_VERSION' ) ) {
 	define( 'GIVE_WEPAY_API_VERSION', apply_filters( 'give_wepay_api_version', '' ) );
+}
+if ( ! defined( 'GIVE_WEPAY_BASENAME' ) ) {
+	define( 'GIVE_WEPAY_BASENAME', plugin_basename( __FILE__ ) );
 }
 
 /**
@@ -87,6 +84,7 @@ final class Give_WePay_Gateway {
 
 		//Includes
 		require_once GIVE_WEPAY_DIR . 'includes/admin/settings.php';
+		require_once GIVE_WEPAY_DIR . 'includes/admin/plugins.php';
 
 	}
 
