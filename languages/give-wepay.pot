@@ -15,106 +15,118 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: give-wepay.php:297, give-wepay.php:643, give-wepay.php:707
+#: give-wepay.php:293, give-wepay.php:639, give-wepay.php:703
 msgid "WePay Error"
 msgstr ""
 
-#: give-wepay.php:297, give-wepay.php:643, give-wepay.php:707
+#: give-wepay.php:293, give-wepay.php:639, give-wepay.php:703
 msgid "An error occurred while processing a donation.<br> Details: %1$s <br><br>Code: %2$s"
 msgstr ""
 
-#: give-wepay.php:303
+#: give-wepay.php:299
 msgid "An error occurred while processing your donation. Please try again."
 msgstr ""
 
-#: give-wepay.php:343
+#: give-wepay.php:339
 msgid "Credit Card"
 msgstr ""
 
-#: give-wepay.php:347
+#: give-wepay.php:343
 msgid "Credit Card or Bank Account"
 msgstr ""
 
-#: give-wepay.php:355
+#: give-wepay.php:351
 msgid "WePay"
 msgstr ""
 
-#: give-wepay.php:639
+#: give-wepay.php:635
 msgid "%1$s. Error code: %2$s"
 msgstr ""
 
-#: give-wepay.php:793, give-wepay.php:847
+#: give-wepay.php:789, give-wepay.php:843
 msgid "The store ID does not match those set in the site settings."
 msgstr ""
 
-#: give-wepay.php:793, give-wepay.php:801, give-wepay.php:847, give-wepay.php:855
+#: give-wepay.php:789, give-wepay.php:797, give-wepay.php:843, give-wepay.php:851
 msgid "Error"
 msgstr ""
 
-#: give-wepay.php:801, give-wepay.php:855
+#: give-wepay.php:797, give-wepay.php:851
 msgid "Your payment is still processing. Please refresh the page to see your donation receipt."
 msgstr ""
 
-#: give-wepay.php:817
+#: give-wepay.php:813
 msgid "WePay Preapproval ID: %s"
 msgstr ""
 
-#: give-wepay.php:865, give-wepay.php:1283
+#: give-wepay.php:861, give-wepay.php:1279
 msgid "WePay Checkout ID: %s"
 msgstr ""
 
-#: give-wepay.php:1003
+#: give-wepay.php:999
 msgid "The preapproved payment was successfully charged."
 msgstr ""
 
-#: give-wepay.php:1009
+#: give-wepay.php:1005
 msgid "The preapproved payment failed to be charged."
 msgstr ""
 
-#: give-wepay.php:1015
+#: give-wepay.php:1011
 msgid "The preapproved payment was successfully cancelled."
 msgstr ""
 
-#: give-wepay.php:1173
+#: give-wepay.php:1169
 msgid "Preapproval cancelled"
 msgstr ""
 
-#: give-wepay.php:1251
+#: give-wepay.php:1247
 msgid "Charge of preapproved payment %s"
 msgstr ""
 
-#: give-wepay.php:1293
+#: give-wepay.php:1289
 msgid "WePay Checkout Error: %s"
 msgstr ""
 
-#: give-wepay.php:1329, give-wepay.php:1363
+#: give-wepay.php:1325, give-wepay.php:1359
 msgid "Preapproved"
 msgstr ""
 
-#: give-wepay.php:1339
+#: give-wepay.php:1335
 msgid "Active <span class=\"count\">(%s)</span>"
 msgid_plural "Active <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: give-wepay.php:1397
+#: give-wepay.php:1393
 msgid "Preapproval"
 msgstr ""
 
-#: give-wepay.php:1433
+#: give-wepay.php:1429
 msgid "Preapproval Pending"
 msgstr ""
 
-#: give-wepay.php:1435
+#: give-wepay.php:1431
 msgid "Cancelled"
 msgstr ""
 
-#: give-wepay.php:1511
+#: give-wepay.php:1507
 msgid "Process Payment"
 msgstr ""
 
-#: give-wepay.php:1513
+#: give-wepay.php:1509
 msgid "Cancel Preapproval"
+msgstr ""
+
+#: includes/admin/plugins.php:59
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/plugins.php:127
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/plugins.php:147
+msgid "Add-ons"
 msgstr ""
 
 #: includes/admin/settings.php:45
