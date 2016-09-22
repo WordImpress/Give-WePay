@@ -83,6 +83,7 @@ final class Give_WePay_Gateway {
 		add_action( 'init', array( $this, 'give_add_wepay_licensing' ) );
 
 		//Includes
+		require_once GIVE_WEPAY_DIR . 'includes/admin/give-wepay-activation.php';
 		require_once GIVE_WEPAY_DIR . 'includes/admin/settings.php';
 		require_once GIVE_WEPAY_DIR . 'includes/admin/plugins.php';
 
