@@ -1,13 +1,17 @@
 <?php
 /**
- *  givedev.dev - give-wepay-settings.php
+ * Give Wepay Settings
  *
- * @description:
- * @copyright  : http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since      : 1.0.0
- * @created    : 9/11/2015
+ * @package     Give
+ * @copyright   Copyright (c) 2016, WordImpress
+ * @license     https://opensource.org/licenses/gpl-license GNU Public License
+ * @since       1.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Register the gateway settings
