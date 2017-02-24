@@ -11,9 +11,12 @@
  */
 
 
-//Plugin constants
+// Plugin constants.
 if ( ! defined( 'GIVE_WEPAY_VERSION' ) ) {
 	define( 'GIVE_WEPAY_VERSION', '1.3.1' );
+}
+if ( ! defined( 'GIVE_WEPAY_MIN_GIVE_VERSION' ) ) {
+	define( 'GIVE_WEPAY_MIN_GIVE_VERSION', '1.8.3' );
 }
 if ( ! defined( 'GIVE_WEPAY_DIR' ) ) {
 	define( 'GIVE_WEPAY_DIR', plugin_dir_path( __FILE__ ) );
@@ -39,6 +42,10 @@ final class Give_WePay_Gateway {
 	 * @var Give_WePay_Gateway The one true Give_WePay_Gateway
 	 */
 	private static $instance;
+
+	/**
+	 * @var string
+	 */
 	private $account_id;
 
 
@@ -102,7 +109,7 @@ final class Give_WePay_Gateway {
 	/**
 	 * Get API Credentials
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_api_credentials() {
 

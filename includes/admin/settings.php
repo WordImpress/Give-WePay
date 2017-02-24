@@ -24,99 +24,99 @@ function give_register_wepay_settings( $settings ) {
 
 	$wepay_settings = apply_filters( 'give_gateway_wepay_settings', array(
 		array(
-			'name' => esc_html__( 'WePay Settings', 'give-wepay' ),
+			'name' => __( 'WePay Settings', 'give-wepay' ),
 			'desc' => '<hr>',
 			'id'   => 'give_title_wepay',
 			'type' => 'give_title'
 		),
 		array(
 			'id'   => 'wepay_client_id',
-			'name' => esc_html__( 'Live Client ID', 'give-wepay' ),
+			'name' => __( 'Live Client ID', 'give-wepay' ),
 			'desc' => sprintf( __( 'Enter your live WePay client ID. <a href="%s" target="_blank">Find out how to obtain your API credentials</a>.', 'give-wepay' ), 'https://givewp.com/documentation/add-ons/wepay-gateway/' ),
 			'type' => 'text',
 		),
 		array(
-			'id'   => 'wepay_client_secret',
-			'name' => esc_html__( 'Live Client Secret', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your live WePay client secret.', 'give-wepay' ),
+			'id'   => 'wepay_account_id',
+			'name' => __( 'Live Account ID', 'give-wepay' ),
+			'desc' => __( 'Enter your live WePay account ID.', 'give-wepay' ),
 			'type' => 'text',
+		),
+		array(
+			'id'   => 'wepay_client_secret',
+			'name' => __( 'Live Client Secret', 'give-wepay' ),
+			'desc' => __( 'Enter your live WePay client secret.', 'give-wepay' ),
+			'type' => 'api_key',
 		),
 		array(
 			'id'   => 'wepay_access_token',
-			'name' => esc_html__( 'Live Access Token', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your live WePay access token.', 'give-wepay' ),
-			'type' => 'text',
-		),
-		array(
-			'id'   => 'wepay_account_id',
-			'name' => esc_html__( 'Live Account ID', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your live WePay account ID.', 'give-wepay' ),
-			'type' => 'text',
+			'name' => __( 'Live Access Token', 'give-wepay' ),
+			'desc' => __( 'Enter your live WePay access token.', 'give-wepay' ),
+			'type' => 'api_key',
 		),
 		array(
 			'id'   => 'wepay_sandbox_client_id',
-			'name' => esc_html__( 'Stage Client ID', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your stage account WePay client ID.', 'give-wepay' ),
-			'type' => 'text',
-		),
-		array(
-			'id'   => 'wepay_sandbox_client_secret',
-			'name' => esc_html__( 'Stage Client Secret', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your stage account WePay client secret.', 'give-wepay' ),
-			'type' => 'text',
-		),
-		array(
-			'id'   => 'wepay_sandbox_access_token',
-			'name' => esc_html__( 'Stage Access Token', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your stage account WePay access token.', 'give-wepay' ),
+			'name' => __( 'Stage Client ID', 'give-wepay' ),
+			'desc' => __( 'Enter your stage account WePay client ID.', 'give-wepay' ),
 			'type' => 'text',
 		),
 		array(
 			'id'   => 'wepay_sandbox_account_id',
-			'name' => esc_html__( 'Stage Account ID', 'give-wepay' ),
-			'desc' => esc_html__( 'Enter your stage account WePay account ID.', 'give-wepay' ),
+			'name' => __( 'Stage Account ID', 'give-wepay' ),
+			'desc' => __( 'Enter your stage account WePay account ID.', 'give-wepay' ),
 			'type' => 'text',
 		),
 		array(
+			'id'   => 'wepay_sandbox_client_secret',
+			'name' => __( 'Stage Client Secret', 'give-wepay' ),
+			'desc' => __( 'Enter your stage account WePay client secret.', 'give-wepay' ),
+			'type' => 'api_key',
+		),
+		array(
+			'id'   => 'wepay_sandbox_access_token',
+			'name' => __( 'Stage Access Token', 'give-wepay' ),
+			'desc' => __( 'Enter your stage account WePay access token.', 'give-wepay' ),
+			'type' => 'api_key',
+		),
+		array(
 			'id'   => 'wepay_preapprove_only',
-			'name' => esc_html__( 'Preapprove Payments?', 'give-wepay' ),
-			'desc' => esc_html__( 'Check this if you would like to preapprove payments but not charge until a later date.', 'give-wepay' ),
+			'name' => __( 'Preapprove Payments?', 'give-wepay' ),
+			'desc' => __( 'Check this if you would like to preapprove payments but not charge until a later date.', 'give-wepay' ),
 			'type' => 'checkbox'
 		),
 		array(
 			'id'      => 'wepay_payment_type',
-			'name'    => esc_html__( 'Payment Type', 'give-wepay' ),
-			'desc'    => esc_html__( 'Select the type of payment you would like to process.', 'give-wepay' ),
+			'name'    => __( 'Payment Type', 'give-wepay' ),
+			'desc'    => __( 'Select the type of payment you would like to process.', 'give-wepay' ),
 			'type'    => 'select',
 			'default' => 'DONATION',
 			'options' => array(
-				'GOODS'    => esc_html__( 'Goods', 'give-wepay' ),
-				'SERVICE'  => esc_html__( 'Service', 'give-wepay' ),
-				'DONATION' => esc_html__( 'Donation', 'give-wepay' ),
-				'EVENT'    => esc_html__( 'Event', 'give-wepay' ),
-				'PERSONAL' => esc_html__( 'Personal', 'give-wepay' ),
+				'GOODS'    => __( 'Goods', 'give-wepay' ),
+				'SERVICE'  => __( 'Service', 'give-wepay' ),
+				'DONATION' => __( 'Donation', 'give-wepay' ),
+				'EVENT'    => __( 'Event', 'give-wepay' ),
+				'PERSONAL' => __( 'Personal', 'give-wepay' ),
 			),
 
 		),
 		array(
 			'id'      => 'wepay_fee_payer',
-			'name'    => esc_html__( 'Fee Payer', 'give-wepay' ),
-			'desc'    => esc_html__( 'How would you like to collect the WePay gateway fee?', 'give-wepay' ),
+			'name'    => __( 'Fee Payer', 'give-wepay' ),
+			'desc'    => __( 'How would you like to collect the WePay gateway fee?', 'give-wepay' ),
 			'type'    => 'radio',
 			'options' => array(
-				'Payee' => esc_html__( 'Recipient', 'give-wepay' ),
-				'Payer' => esc_html__( 'Donor', 'give-wepay' )
+				'Payee' => __( 'Recipient', 'give-wepay' ),
+				'Payer' => __( 'Donor', 'give-wepay' )
 			),
 			'default' => 'Payee'
 		),
 		array(
 			'id'      => 'wepay_onsite_payments',
-			'name'    => esc_html__( 'On Site Payments', 'give-wepay' ),
-			'desc'    => esc_html__( 'Process credit cards on-site or send customers to WePay\'s terminal? Note: On-site payments require SSL.', 'give-wepay' ),
+			'name'    => __( 'On Site Payments', 'give-wepay' ),
+			'desc'    => __( 'Process credit cards on-site or send customers to WePay\'s terminal? Note: On-site payments require SSL.', 'give-wepay' ),
 			'type'    => 'radio',
 			'options' => array(
-				'onsite'  => esc_html__( 'On-Site', 'give-wepay' ),
-				'offsite' => esc_html__( 'Off-Site', 'give-wepay' )
+				'onsite'  => __( 'On-Site', 'give-wepay' ),
+				'offsite' => __( 'Off-Site', 'give-wepay' )
 			),
 			'default' => 'offsite'
 		)
