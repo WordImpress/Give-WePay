@@ -8,7 +8,7 @@
  * @since       1.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -79,6 +79,9 @@ class Give_WePay_Gateway_Settings {
 
 			// Add section settings.
 			add_filter( 'give_get_settings_gateways', array( $this, 'add_settings' ) );
+
+			// Connect button.
+			add_action( 'give_admin_field_wepay_connect', array( $this, 'wepay_connect_field' ), 10, 2 );
 		}
 	}
 
@@ -134,6 +137,13 @@ class Give_WePay_Gateway_Settings {
 					'type' => 'title',
 				),
 				array(
+					'name'          => __( 'WePay Connection', 'give-wepay' ),
+					'desc'          => '',
+					'wrapper_class' => 'give-wepay-connect-tr',
+					'id'            => 'wepay_connect',
+					'type'          => 'wepay_connect',
+				),
+				array(
 					'id'   => 'wepay_client_id',
 					'name' => __( 'Live Client ID', 'give-wepay' ),
 					'desc' => sprintf( __( 'Enter your live WePay client ID. <a href="%s" target="_blank">Find out how to obtain your API credentials</a>.', 'give-wepay' ), 'https://givewp.com/documentation/add-ons/wepay-gateway/' ),
@@ -157,6 +167,7 @@ class Give_WePay_Gateway_Settings {
 					'desc' => __( 'Enter your live WePay access token.', 'give-wepay' ),
 					'type' => 'api_key',
 				),
+
 				array(
 					'id'   => 'wepay_sandbox_client_id',
 					'name' => __( 'Stage Client ID', 'give-wepay' ),
@@ -181,6 +192,7 @@ class Give_WePay_Gateway_Settings {
 					'desc' => __( 'Enter your stage account WePay access token.', 'give-wepay' ),
 					'type' => 'api_key',
 				),
+			
 				array(
 					'id'   => 'wepay_preapprove_only',
 					'name' => __( 'Preapprove Payments?', 'give-wepay' ),
@@ -206,7 +218,7 @@ class Give_WePay_Gateway_Settings {
 					'id'      => 'wepay_fee_payer',
 					'name'    => __( 'Fee Payer', 'give-wepay' ),
 					'desc'    => __( 'How would you like to collect the WePay gateway fee?', 'give-wepay' ),
-					'type'    => 'radio',
+					'type'    => 'radio_inline',
 					'options' => array(
 						'Payee' => __( 'Recipient', 'give-wepay' ),
 						'Payer' => __( 'Donor', 'give-wepay' )
@@ -217,7 +229,7 @@ class Give_WePay_Gateway_Settings {
 					'id'      => 'wepay_onsite_payments',
 					'name'    => __( 'On Site Payments', 'give-wepay' ),
 					'desc'    => __( 'Process credit cards on-site or send customers to WePay\'s terminal? Note: On-site payments require SSL.', 'give-wepay' ),
-					'type'    => 'radio',
+					'type'    => 'radio_inline',
 					'options' => array(
 						'onsite'  => __( 'On-Site', 'give-wepay' ),
 						'offsite' => __( 'Off-Site', 'give-wepay' )
@@ -234,6 +246,63 @@ class Give_WePay_Gateway_Settings {
 
 		return $settings;
 	}
+
+	/**
+	 * Connect field
+	 *
+	 * @param $value
+	 * @param $option_value
+	 */
+	function wepay_connect_field( $value, $option_value ) {
+
+		// If the user wants to use their own API keys they can.
+		$user_api_keys_enabled = give_is_setting_enabled( give_get_option( 'wepay_user_api_keys' ) );
+
+		if ( $user_api_keys_enabled ) : ?>
+			<style>
+				.give-wepay-connect-tr {
+					display: none;
+				}
+			</style>
+		<?php else: ?>
+			<style>
+				.wepay-checkout-field, .give-wepay-key {
+					display: none;
+				}
+			</style>
+		<?php endif; ?>
+		<tr valign="top" <?php echo ! empty( $value['wrapper_class'] ) ? 'class="' . $value['wrapper_class'] . '"' : '' ?>>
+			<th scope="row" class="titledesc">
+				<label for="test_secret_key"> <?php _e( 'wepay Connection', 'give-wepay' ) ?></label>
+			</th>
+			<?php if ( give_is_wepay_connected() ) :
+				$wepay_user_id = give_get_option( 'give_wepay_user_id' );
+				?>
+
+				<td class="give-forminp give-forminp-api_key">
+					<span id="give-wepay-connect" class="wepay-btn-disabled"><span>Connected</span></span>
+					<p class="give-field-description">
+                        <span class="dashicons dashicons-yes"
+                              style="color:#25802d;"></span><?php _e( 'wepay is connected.', 'give-wepay' ); ?>
+						<a href="<?php echo give_wepay_disconnect_url(); ?>" class="give-wepay-disconnect"
+						   onclick="return confirm('<?php echo sprintf( __( 'Are you sure you want to disconnect Give from wepay? If disconnected, this website and any others sharing the same wepay account (%s) that are connected to Give will need to reconnect in order to process payments.', 'give-wepay' ), $wepay_user_id ); ?>')">[Disconnect]</a>
+					</p>
+				</td>
+
+
+			<?php else : ?>
+				<td class="give-forminp give-forminp-api_key">
+					<?php echo give_wepay_connect_button(); ?>
+					<p class="give-field-description">
+                        <span class="dashicons dashicons-no"
+                              style="color:red;"></span><?php _e( 'WePay is NOT connected.', 'give-wepay' ) ?>
+					</p>
+				</td>
+
+			<?php endif; ?>
+
+		</tr>
+	<?php }
 
 }
 

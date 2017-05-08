@@ -83,9 +83,13 @@ final class Give_WePay_Gateway {
 	 */
 	public function includes() {
 
+		require_once GIVE_WEPAY_DIR . 'includes/give-wepay-functions.php';
+		require_once GIVE_WEPAY_DIR . 'includes/give-wepay-scripts.php';
+
 		if ( is_admin() ) {
 			// Add actions.
 			require_once GIVE_WEPAY_DIR . 'includes/admin/class-wepay-settings.php';
+			require_once GIVE_WEPAY_DIR . 'includes/admin/give-wepay-connect.php';
 		}
 	}
 
@@ -106,7 +110,6 @@ final class Give_WePay_Gateway {
 			add_action( 'give_wepay_cc_form', '__return_false' );
 		}
 		add_action( 'init', array( $this, 'confirm_payment' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 		add_action( 'give_after_cc_fields', array( $this, 'errors_div' ) );
 		add_action( 'admin_notices', array( $this, 'admin_messages' ) );
 		add_action( 'init', array( $this, 'register_post_statuses' ), 110 );
@@ -468,40 +471,6 @@ final class Give_WePay_Gateway {
 
 
 	/**
-	 * Plugin Scripts
-	 */
-	public function scripts() {
-
-		//Onsite payments only
-		if ( ! $this->onsite_payments() ) {
-			return;
-		}
-
-		//Is this user in test mode?
-		if ( give_is_test_mode() ) {
-			$script_url = 'https://stage.wepay.com/min/js/tokenization.v2.js';
-		} else {
-			$script_url = 'https://www.wepay.com/min/js/tokenization.v2.js';
-		}
-
-		$creds = $this->get_api_credentials();
-
-		wp_register_script( 'give-wepay-tokenization', $script_url );
-		wp_enqueue_script( 'give-wepay-tokenization' );
-
-		wp_register_script( 'give-wepay-gateway', GIVE_WEPAY_URL . 'assets/js/wepay.js', array(
-			'give-wepay-tokenization',
-			'jquery'
-		) );
-		wp_enqueue_script( 'give-wepay-gateway' );
-
-		wp_localize_script( 'give-wepay-gateway', 'give_wepay_js', array(
-			'is_test_mode' => give_is_test_mode() ? '1' : '0',
-			'client_id'    => $creds['client_id']
-		) );
-	}
-
-	/**
 	 * Add an errors div
 	 *
 	 * @access      public
@@ -796,7 +765,7 @@ final class Give_WePay_Gateway {
 
 	private function payment_type() {
 		$give_options = give_get_settings();
-		$type         = isset( $give_options['wepay_payment_type'] ) ? $give_options['wepay_payment_type'] : 'GOODS';
+		$type         = isset( $give_options['wepay_payment_type'] ) ? $give_options['wepay_payment_type'] : 'DONATIONS';
 
 		return strtolower( $type );
 	}
@@ -850,7 +819,7 @@ final class Give_WePay_Gateway {
  *
  * @since v1.0
  *
- * @return mixed one true Give_WePay_Gateway Instance
+ * @return Give_WePay_Gateway|bool
  */
 
 function Give_WePay() {
