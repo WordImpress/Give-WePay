@@ -73,7 +73,26 @@ final class Give_WePay_Gateway {
 	 * WePay Initialization.
 	 */
 	function wepay_init() {
+		add_action( 'init', array( $this, 'includes' ), 1 );
+		$this->hooks();
+	}
 
+
+	/**
+	 * Include files.
+	 */
+	public function includes() {
+
+		if ( is_admin() ) {
+			// Add actions.
+			require_once GIVE_WEPAY_DIR . 'includes/admin/class-wepay-settings.php';
+		}
+	}
+
+	/**
+	 * Fire hooks.
+	 */
+	public function hooks() {
 		// Filters
 		add_filter( 'give_payment_gateways', array( $this, 'register_gateway' ) );
 		add_filter( 'give_payments_table_column', array( $this, 'payment_column_data' ), 10, 3 );
@@ -94,11 +113,6 @@ final class Give_WePay_Gateway {
 		add_action( 'give_charge_wepay_preapproval', array( $this, 'process_preapproved_charge' ) );
 		add_action( 'give_cancel_wepay_preapproval', array( $this, 'process_preapproved_cancel' ) );
 		add_action( 'init', array( $this, 'give_add_wepay_licensing' ) );
-
-		//Includes
-		require_once GIVE_WEPAY_DIR . 'includes/admin/settings.php';
-		require_once GIVE_WEPAY_DIR . 'includes/admin/plugins.php';
-
 	}
 
 	/**
@@ -106,10 +120,9 @@ final class Give_WePay_Gateway {
 	 */
 	function give_add_wepay_licensing() {
 		if ( class_exists( 'Give_License' ) ) {
-			new Give_License( __FILE__, 'WePay Gateway', GIVE_WEPAY_VERSION, 'Devin Walker', 'wepay_license_key' );
+			new Give_License( __FILE__, 'WePay Gateway', GIVE_WEPAY_VERSION, 'WordImpress', 'wepay_license_key' );
 		}
 	}
-
 
 	/**
 	 * Get API Credentials
@@ -783,7 +796,7 @@ final class Give_WePay_Gateway {
 
 	private function payment_type() {
 		$give_options = give_get_settings();
-		$type = isset( $give_options['wepay_payment_type'] ) ? $give_options['wepay_payment_type'] : 'GOODS';
+		$type         = isset( $give_options['wepay_payment_type'] ) ? $give_options['wepay_payment_type'] : 'GOODS';
 
 		return strtolower( $type );
 	}
