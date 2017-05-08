@@ -17,6 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Register the gateway settings
  *
  * @access      public
+ *
+ * @param      $settings
+ *
  * @since       1.0
  * @return      array
  */
