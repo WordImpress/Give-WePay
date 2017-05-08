@@ -31,6 +31,9 @@ if ( ! defined( 'GIVE_WEPAY_BASENAME' ) ) {
 	define( 'GIVE_WEPAY_BASENAME', plugin_basename( __FILE__ ) );
 }
 
+require_once GIVE_WEPAY_DIR . 'includes/admin/give-wepay-activation.php';
+
+
 /**
  * Class Give_WePay_Gateway
  */
@@ -66,6 +69,9 @@ final class Give_WePay_Gateway {
 	}
 
 
+	/**
+	 * WePay Initialization.
+	 */
 	function wepay_init() {
 
 		// Filters
@@ -90,7 +96,6 @@ final class Give_WePay_Gateway {
 		add_action( 'init', array( $this, 'give_add_wepay_licensing' ) );
 
 		//Includes
-		require_once GIVE_WEPAY_DIR . 'includes/admin/give-wepay-activation.php';
 		require_once GIVE_WEPAY_DIR . 'includes/admin/settings.php';
 		require_once GIVE_WEPAY_DIR . 'includes/admin/plugins.php';
 
