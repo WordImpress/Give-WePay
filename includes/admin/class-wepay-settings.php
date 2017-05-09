@@ -138,7 +138,6 @@ class Give_WePay_Gateway_Settings {
 				),
 				array(
 					'name'          => __( 'WePay Connection', 'give-wepay' ),
-					'desc'          => '',
 					'wrapper_class' => 'give-wepay-connect-tr',
 					'id'            => 'wepay_connect',
 					'type'          => 'wepay_connect',
@@ -273,12 +272,11 @@ class Give_WePay_Gateway_Settings {
 		<?php endif; ?>
 		<tr valign="top" <?php echo ! empty( $value['wrapper_class'] ) ? 'class="' . $value['wrapper_class'] . '"' : '' ?>>
 			<th scope="row" class="titledesc">
-				<label for="test_secret_key"> <?php _e( 'wepay Connection', 'give-wepay' ) ?></label>
+				<label for="test_secret_key"> <?php _e( 'WePay Connection', 'give-wepay' ) ?></label>
 			</th>
 			<?php if ( give_is_wepay_connected() ) :
 				$wepay_user_id = give_get_option( 'give_wepay_user_id' );
 				?>
-
 				<td class="give-forminp give-forminp-api_key">
 					<span id="give-wepay-connect" class="wepay-btn-disabled"><span>Connected</span></span>
 					<p class="give-field-description">
@@ -288,8 +286,6 @@ class Give_WePay_Gateway_Settings {
 						   onclick="return confirm('<?php echo sprintf( __( 'Are you sure you want to disconnect Give from wepay? If disconnected, this website and any others sharing the same wepay account (%s) that are connected to Give will need to reconnect in order to process payments.', 'give-wepay' ), $wepay_user_id ); ?>')">[Disconnect]</a>
 					</p>
 				</td>
-
-
 			<?php else : ?>
 				<td class="give-forminp give-forminp-api_key">
 					<?php echo give_wepay_connect_button(); ?>
@@ -298,9 +294,7 @@ class Give_WePay_Gateway_Settings {
                               style="color:red;"></span><?php _e( 'WePay is NOT connected.', 'give-wepay' ) ?>
 					</p>
 				</td>
-
 			<?php endif; ?>
-
 		</tr>
 	<?php }
 
