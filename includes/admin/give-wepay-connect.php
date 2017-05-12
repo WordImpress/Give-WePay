@@ -69,37 +69,44 @@ function give_wepay_connect_button() {
 
 	$connected = give_get_option( 'give_wepay_connected' );
 
-	ob_start();
-	?>
-    <a href="#" id="give-wepay-connect"><span>Connect with WePay</span></a>
+	// Pass off link to the
+	$link = add_query_arg(
+		array(
+			'wepay_env'            => 'staging',
+			'wepay_action'         => 'connect',
+			'return_url'           => rawurlencode( admin_url( 'edit.php?post_type=give_forms&page=give-settings&tab=gateways&section=wepay-settings' ) ),
+			'website_url'          => rawurlencode(get_bloginfo( 'url' )),
+		),
+		'https://connect.givewp.com/wepay/'
+	);
 
-    <script src="https://static.wepay.com/min/js/wepay.v2.js" type="text/javascript"></script>
-    <script type="text/javascript">
-
-        WePay.set_endpoint("stage"); // stage or production
-
-        WePay.OAuth2.button_init(document.getElementById('give-wepay-connect'), {
-            "client_id": "199254",
-            "scope": ["manage_accounts", "collect_payments", "view_user", "send_money", "preapprove_payments"],
-            "user_name": "test user",
-            "user_email": "test@example.com",
-            "redirect_uri": "<?php echo give_get_current_page_url(); ?>",
-            "top": 100, // control the positioning of the popup with the top and left params
-            "left": 100,
-            "state": "robot", // this is an optional parameter that lets you persist some state value through the flow
-            "callback": function (data) {
-                console.log(data);
-                /** This callback gets fired after the user clicks "grant access" in the popup and the popup closes. The data object will include the code which you can pass to your server to make the /oauth2/token call **/
-                if (data.code.length !== 0) {
-                    // send the data to the server
-                } else {
-                    // an error has occurred and will be in data.error
-                }
-            }
-        });
-
-    </script>
-
-
-	<?php return apply_filters( 'give_wepay_connect_button', ob_get_clean() );
+	return apply_filters( 'give_wepay_connect_button', sprintf( '<a href="%s" id="give-wepay-connect"><span>Connect with WePay</span></a>', esc_url( $link ) ) );
 }
+
+
+
+/**
+ * Once the user returns from connecting, save the options.
+ */
+function give_stripe_connect_save_options() {
+
+	// If we don't have values here, bounce.
+	http://givetest.dev/wp-admin/edit.php?post_type=give_forms&page=give-settings&tab=gateways&section=wepay-settings&wepay_access_token=STAGE_e124d4c884dd52b4fe8e3541789bb05d169237275a39dcce1da8ca71da611ce8&wepay_account_id=1936032468&connected=1
+	if (
+		! isset( $_GET['wepay_access_token'] )
+		|| ! isset( $_GET['wepay_account_id'] )
+	) {
+		return false;
+	}
+
+	// Update keys
+	give_update_option( 'wepay_client_id', $_GET['connected'] );
+	give_update_option( 'wepay_sandbox_client_id', $_GET['connected'] );
+
+
+	// Delete option for user API key.
+	give_delete_option( 'wepay_user_api_keys' );
+
+}
+
+add_action( 'admin_init', 'give_stripe_connect_save_options' );
